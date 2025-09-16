@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Página da Instituição</title>
+  <link rel="stylesheet" href="aluno/aluno.css" />
+  <script src="script.js" defer></script>
+</head>
+<body class="instituicao">
+  <div class="dashboard">
+   <aside class="sidebar">
+  <!-- Container da foto com ícone de câmera -->
+  <div class="upload-container">
+    <label for="foto-input" class="upload-label" style="cursor: pointer;">
+      <div class="profile-pic-container">
+        <img
+          id="preview-img"
+          class="profile-pic"
+          src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+          alt="Foto de perfil"
+        />
+        <span class="icon-overlay">📷</span>
+      </div>
+    </label>
+    <input type="file" id="foto-input" name="foto" accept="image/*" hidden />
+  </div>
+
+    <!-- Modal flutuante central -->
+    <div id="foto-modal" class="modal hidden">
+      <div class="modal-content">
+        <p>Deseja salvar a nova foto de perfil?</p>
+        <div class="modal-buttons">
+          <button id="confirmar-btn" class="btn salvar">Salvar</button>
+          <button id="cancelar-btn" class="btn cancelar">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <p class="institution-name">Nome da Instituição</p>
+
+  <button class="sidebar-btn home" onclick="mostrarSecao('painel')">🏠</button>
+  <button class="sidebar-btn" onclick="mostrarSecao('projetos')">Cadastro de Projetos</button>
+  <button class="sidebar-btn" onclick="mostrarSecao('listar-projetos')">Visualizar Projetos</button>
+  <button class="sidebar-btn" onclick="mostrarSecao('usuarios')">Alunos</button>
+  <button class="sidebar-btn" onclick="mostrarSecao('solicitacoes')">Solicitações</button>
+  <button class="sidebar-btn" onclick="mostrarSecao('certificados')">Certificados</button>
+  <a href="/login.html" class="back-button">Sair</a>
+</aside>
+
+    <main class="main-content">
+      <section id="painel" class="secao-dashboard active">
+  <h2>Bem-vindo(a) ao Painel da Instituição</h2>
+  <p>Este é o seu centro de controle. Abaixo, você encontra informações úteis e um resumo geral.</p>
+
+  <!-- Cards principais -->
+  <div class="dashboard-cards">
+    <div class="card">
+      <h3>Alunos Cadastrados</h3>
+      <p id="count-alunos">0</p>
+    </div>
+    <div class="card">
+      <h3>Projetos Ativos</h3>
+      <p id="count-projetos">0</p>
+    </div>
+    <div class="card">
+      <h3>Último Cadastro</h3>
+      <p id="last-cadastro">--</p>
+    </div>
+  </div>
+
+  <!-- Ações rápidas -->
+  <h3 style="margin-top: 2rem;">Ações rápidas</h3>
+  <div class="dashboard-cards">
+    <div class="card card-acao">
+      <h4>Gerenciar Projetos</h4>
+      <p>Cadastre novos projetos ou edite os existentes.</p>
+      <button class="btn-acao" onclick="mostrarSecao('projetos')">Cadastro de Projetos</button>
+    </div>
+    <div class="card card-acao">
+      <h4>Acompanhar Alunos</h4>
+      <p>Veja o progresso e envolvimento dos alunos vinculados.</p>
+      <button class="btn-acao" onclick="mostrarSecao('usuarios')">Alunos</button>
+    </div>
+  </div>
+
+  <!-- Sugestões úteis -->
+  <h3 style="margin-top: 2rem;">Sugestões para sua instituição</h3>
+  <ul class="sugestoes-lista">
+    <li>📢 Divulgue seus projetos para atrair mais alunos</li>
+    <li>📈 Analise o envolvimento dos alunos em cada projeto</li>
+    <li>📩 Use o painel para entrar em contato com mentores ou alunos</li>
+    <li>🔐 Mantenha seu perfil institucional sempre atualizado</li>
+  </ul>
+</section>
+
+
+      <section id="projetos" class="secao-dashboard">
+
+         <a href="/" class="voltar-button">
+    <img src="/frontend/assets/seta-para-a-esquerda.png" alt="Voltar" />
+  </a>
+        <h2>Cadastro de Projetos</h2>
+        <form id="form-projetos" method="POST">
+          <input type="text" name="titulo" placeholder="Título do Projeto" required/>
+          <textarea name="descricao" placeholder="Descrição do Projeto" rows="4"></textarea>
+          <input type="date" name="data_inicio" placeholder="Data de início" required/>
+          <input type="date" name="data_termino" placeholder="Data do término" required/>
+          <button type="submit">Cadastrar Projeto</button>
+        </form>
+      </section>
+
+      <section id="listar-projetos" class="secao-dashboard">
+        <h2>Projetos Cadastrados</h2>
+        <table border="1">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Título</th>
+              <th>Descrição</th>
+              <th>Status</th>
+              <th>Data Início</th>
+              <th>Data Término</th>
+            </tr>
+          </thead>
+          <tbody id="tabela-projetos"></tbody>
+        </table>
+      </section>
+
+      <section id="usuarios" class="secao-dashboard">
+        
+            <a href="/" class="voltar-button">
+    <img src="/frontend/assets/seta-para-a-esquerda.png" alt="Voltar" />
+  </a>
+
+        <h2>Alunos Cadastrados</h2>
+        <table border="1">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <tbody id="corpo-tabela-alunos"></tbody>
+        </table>
+      </section>
+
+      <section id="solicitacoes" class="secao-dashboard">
+        <h1>Solicitações Pendentes</h1>
+        <table border="1">
+          <thead>
+            <tr>
+              <th>Aluno</th>
+              <th>Projeto</th>
+              <th>Status</th>
+              <th>Ação</th>
+            </tr>
+          </thead>
+          <tbody id="tabela-solicitacoes"></tbody>
+        </table>
+        <div id="resposta-solicitacao" style="margin-top: 20px; display: none;">
+          <h2>Responder Solicitação</h2>
+          <p><strong>Aluno:</strong> <span id="aluno-nome"></span></p>
+          <p><strong>Projeto:</strong> <span id="projeto-titulo"></span></p>
+          <input type="text" id="mensagem-resposta" placeholder="Mensagem para o aluno" style="width: 300px;" />
+          <br /><br />
+          <button id="btn-aprovar">Aprovar</button>
+          <button id="btn-negar">Negar</button>
+        </div>
+      </section>
+
+      <section id="certificados" class="secao-dashboard">
+        <div class="wrapper">
+          <form id="form-certificado" class="form-box">
+            <h1>Cadastrar Certificado</h1>
+            <p class="descricao">
+              Preencha os dados abaixo para registrar o certificado de conclusão de projeto.
+            </p>
+            <div class="input-group">
+              <label for="aluno">Nome do Aluno</label>
+              <input type="text" id="aluno" name="aluno" required />
+            </div>
+            <div class="input-group">
+              <label for="projeto">Nome do Projeto</label>
+              <input type="text" id="projeto" name="projeto" required />
+            </div>
+            <div class="input-group">
+              <label for="arquivo">Certificado (PDF)</label>
+              <input type="file" id="arquivo" name="arquivo" accept=".pdf" required />
+            </div>
+            <button type="submit">Cadastrar</button>
+            <div id="mensagem-sucesso" class="mensagem-sucesso" style="display: none">
+              ✅ Certificado cadastrado com sucesso!
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+
+
+<script src="js/factoryPerfil.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    carregarPerfil();
+    document.getElementById('form-perfil').addEventListener('submit', salvarPerfil);
+  });
+</script>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const dados = localStorage.getItem("usuarioLogado");
+
+    if (dados) {
+      const usuario = JSON.parse(dados);
+
+      // Exemplo: verificar o tipo
+      if (usuario.tipo !== "instituicao") {
+        alert("Acesso não autorizado.");
+        window.location.href = "login.html";
+      }
+
+      // Aqui você pode usar os dados do usuário normalmente
+      console.log("Usuário logado:", usuario.nome);
+    } else {
+      // Redireciona se não estiver logado
+      window.location.href = "login.html";
+    }
+  });
+</script>
+
+<script>
+  function mostrarSecao(secaoId) {
+    const secoes = document.querySelectorAll('.secao-dashboard');
+    secoes.forEach(secao => secao.classList.remove('active'));
+    document.getElementById(secaoId)?.classList.add('active');
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    // Verifica se o tipo de usuário está correto
+    const tipoUsuario = localStorage.getItem("tipoUsuario");
+    if (tipoUsuario !== "instituicao") {
+      // Redireciona para a tela de login se não for do tipo "instituicao"
+      window.location.href = "login.html";
+      return;
+    }
+
+    
+
+    const nomeInstituicao = localStorage.getItem("instituicaoNome") || "Instituição";
+
+
+    // Atualiza o nome no menu lateral
+    const nomeElemento = document.querySelector('.institution-name');
+    if (nomeElemento) {
+      nomeElemento.textContent = nomeInstituicao;
+    }
+
+    // Atualiza o título da seção principal
+    const painelTitulo = document.querySelector('#painel h2');
+    if (painelTitulo) {
+      painelTitulo.textContent = `Bem-vindo(a), ${nomeInstituicao}!`;
+    }
+  });
+</script>
+
+<!-- Ativa o cadastro de projeto com a URL correta -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const ativarCadastroProjeto = criarCadastroProjetoHandler("http://localhost:3000/api/projetos");
+    ativarCadastroProjeto();
+  });
+</script>
+
+<!-- script para prewiew da foto de perfil e envio com fetch -->
+<script>
+  document.getElementById('foto-perfil').addEventListener('change', function (event) {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        document.getElementById('foto-preview').src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  document.getElementById('foto-preview').addEventListener('click', () => {
+    document.getElementById('foto-perfil').click();
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,225 @@
+* { 
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Nexa";
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Nexa" ;
+  src: url("assets/nexaregular.otf");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Nexa" ;
+  src: url("assets/nexa-light.otf");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Nexa" ;
+  src: url("assets/nexa-bold.otf");
+  font-weight: 700;
+  font-style: normal;
+}
+
+body {
+  color: white;
+}
+
+h2 {
+  font-size: 50px ;
+  margin-bottom: 32px;
+  font-weight: 700;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  button {
+    background: linear-gradient(90deg,
+     #06B6D4 0%, #8be4f4 100%);
+    ;
+  }
+}
+
+input, button {
+  padding: 12px 60px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+}
+
+input{
+  background-color: rgba(75, 84, 107, 0.2);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+  text-align-last: center;
+}
+
+select {
+  background-color: rgba(209, 218, 238, 0.867);
+  color: rgba(21, 20, 20, 0.7);
+  padding: 2px 60px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+   text-align-last: center;
+  font-size: 16px;
+}
+
+button {
+  margin-top: 8px;
+  font-weight: 700;
+  color: rgba(0 0 0 / 0.8) ;
+  padding: 12px 60px;
+  background: linear-gradient(90deg,
+     #06B6D4 0%, #8be4f4 100%);
+  
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+p{
+  margin-bottom: 32px;
+}
+
+.containerPai {
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(135deg, #27334e 0%, #111827 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  width: 80%;
+  height: 90vh;
+  background-color: #08152ff5 ;
+  border-radius: 32px;
+  padding: 32px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.esquerda, .direita {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.formLogin, .containerLogin, .formCadastro, .containerCadastro{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.containerLogin, .containerCadastro {
+  position: absolute;
+
+  h2, p {
+    color:   #fefefffc ;
+
+  }
+}
+
+.containerLogin {
+  position: absolute;
+
+  h2, p {
+    color:   #fefefffc ;
+
+  }
+}
+
+.formCadastro {
+  position: absolute;
+
+  h2, p, input::placeholder {
+    color:   #fefefffc ;
+  }
+}
+
+/*Background móvel*/
+
+.card::after{
+  width: 100%;
+  height: 100%;
+  content: "";
+  background: #08152FF5;
+  background: linear-gradient(135deg, #27334e 0%, #111827 100%);
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+
+/*Login Active*/
+
+.card.loginActive .containerLogin {
+  opacity: 0;
+  pointer-events: none;
+}
+.card.loginActive .formCadastro {
+  opacity: 0;
+}
+
+.card.loginActive::after {
+  transform: translateX(50%);
+}
+
+/*Cadastro Active*/
+
+.card.cadastroActive .containerCadastro {
+  opacity: 0;
+  pointer-events: none;
+}
+.card.cadastroActive .formLogin {
+  opacity: 0;
+}
+
+.card.cadastroActive::after {
+  transform: translateX(50%);
+}
+
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+}
+
+.back-button img {
+  width: 32px;
+  height: auto;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.back-button img:hover {
+  opacity: 0.7;
+}
+
