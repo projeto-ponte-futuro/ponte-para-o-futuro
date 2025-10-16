@@ -202,7 +202,7 @@ function carregarProjetos() {
     return;
   }
 
-  fetch('https://ponte-para-o-futuro-production.up.railway.app/api/projetos')
+  fetch('http://localhost:3000/api/projetos')
     .then(res => {
       if (!res.ok) {
         throw new Error('Erro ao buscar projetos: ' + res.status);
@@ -241,7 +241,7 @@ function carregarProjetos() {
 }
 
 function carregarAlunos() {
-  fetch('https://ponte-para-o-futuro-production.up.railway.app/api/users') // ajuste a rota se necessário
+  fetch('http://localhost:3000/api/users') // ajuste a rota se necessário
     .then(response => response.json())
     .then(usuarios => {
       const tabela = document.getElementById('corpo-tabela-alunos');
@@ -267,7 +267,7 @@ function carregarAlunos() {
 
 function atualizarPainelResumo() {
   // Atualiza contagem de alunos
-  fetch('https://ponte-para-o-futuro-production.up.railway.app/api/users')
+  fetch('http://localhost:3000/api/users')
     .then(res => res.json())
     .then(usuarios => {
       const alunos = usuarios.filter(u => u.tipo === 'aluno');
@@ -285,7 +285,7 @@ function atualizarPainelResumo() {
     .catch(err => console.error('Erro ao buscar usuários:', err));
 
   // Atualiza contagem de projetos
-  fetch('https://ponte-para-o-futuro-production.up.railway.app/api/projetos')
+  fetch('http://localhost:3000/api/projetos')
     .then(res => res.json())
     .then(projetos => {
       document.getElementById('count-projetos').textContent = projetos.length;
@@ -424,17 +424,17 @@ function criarResponderSolicitacao(baseUrl) {
 
 document.addEventListener("DOMContentLoaded", () => {
 
- const ativarLogin = criarLoginHandler("https://ponte-para-o-futuro-production.up.railway.app/api/users/login"); 
+ const ativarLogin = criarLoginHandler("http://localhost:3000/api/users/login"); 
  ativarLogin();
 
- const ativarRegistro = criarRegistroHandler("https://ponte-para-o-futuro-production.up.railway.app/api/users");
+ const ativarRegistro = criarRegistroHandler("http://localhost:3000/api/users");
   ativarRegistro();
 
- const ativarCadastroProjeto = criarCadastroProjetoHandler("https://ponte-para-o-futuro-production.up.railway.app/api/projetos");
+ const ativarCadastroProjeto = criarCadastroProjetoHandler("http://localhost:3000/api/projetos");
   ativarCadastroProjeto();
 
- const carregarSolicitacoes = criarCarregadorSolicitacoes("https://ponte-para-o-futuro-production.up.railway.app/api/solicitacoes/pendentes");
- const responderSolicitacao = criarResponderSolicitacao("https://ponte-para-o-futuro-production.up.railway.app/api/solicitacoes");
+ const carregarSolicitacoes = criarCarregadorSolicitacoes("http://localhost:3000/api/solicitacoes/pendentes");
+ const responderSolicitacao = criarResponderSolicitacao("http://localhost:3000/api/solicitacoes");
 
   carregarSolicitacoes(responderSolicitacao); // carrega ao iniciar
 });

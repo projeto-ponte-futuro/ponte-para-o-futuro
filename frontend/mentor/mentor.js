@@ -19,7 +19,7 @@ function abrirFormulario(idProjetoHtml, tituloProjeto) {
     linha.insertAdjacentElement('afterend', div);
   }
 
-  fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/reunioes/alunos/${idProjetoHtml.replace('projeto', '')}`)
+  fetch(`http://localhost:3000/api/reunioes/alunos/${idProjetoHtml.replace('projeto', '')}`)
     .then(res => res.json())
     .then(data => {
       console.log("Resposta recebida da API:", data);  // <-- Adicione aqui
@@ -55,7 +55,7 @@ function enviarConvite(idProjeto) {
     link_reuniao: link
   }));
 
-  fetch("https://ponte-para-o-futuro-production.up.railway.app/api/reunioes", {
+  fetch("http://localhost:3000/api/reunioes", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(reunioes)
@@ -87,7 +87,7 @@ function carregarProjetos() {
     return;
   }
 
-  fetch('https://ponte-para-o-futuro-production.up.railway.app/api/projetos')
+  fetch('http://localhost:3000/api/projetos')
     .then(res => {
       if (!res.ok) {
         throw new Error('Erro ao buscar projetos: ' + res.status);
@@ -148,7 +148,7 @@ function enviarConvite(idProjetoHtml, idProjeto) {
     link_reuniao: link
   }));
 
-  fetch('https://ponte-para-o-futuro-production.up.railway.app/api/reunioes', {
+  fetch('http://localhost:3000/api/reunioes', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(reunioes)
@@ -184,7 +184,7 @@ function mentorarProjeto(idProjeto, titulo) {
   }
 
   // Buscar alunos vinculados ao projeto
-  fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/reunioes/alunos/${idProjeto}`)
+  fetch(`http://localhost:3000/api/reunioes/alunos/${idProjeto}`)
     .then(res => res.json())
     .then(data => {
       const alunos = data.map(obj => obj.id);
@@ -295,7 +295,7 @@ function salvarPerfilMentor(event) {
 
   console.log("📦 Dados do formulário:", dados);
 
-  fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/perfil`, {
+  fetch(`http://localhost:3000/api/perfil`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(dados)
@@ -330,7 +330,7 @@ function buscarPerfilMentor() {
     return;
   }
 
-  fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/perfil/${usuarioId}`)
+  fetch(`http://localhost:3000/api/perfil/${usuarioId}`)
     .then(response => {
       console.log("🌐 Resposta da API buscar:", response);
       if (!response.ok) {

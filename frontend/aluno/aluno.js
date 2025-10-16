@@ -49,11 +49,11 @@ async function carregarProjetos() {
 
   try {
     // Buscar todos os projetos disponíveis
-    const projetosRes = await fetch('https://ponte-para-o-futuro-production.up.railway.app/api/projetos');
+    const projetosRes = await fetch('http://localhost:3000/api/projetos');
     const projetos = await projetosRes.json();
 
     // Buscar os projetos que o aluno já solicitou ou foi aprovado
-    const solicitadosRes = await fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/solicitacoes/projetos-solicitados/${alunoId}`);
+    const solicitadosRes = await fetch(`http://localhost:3000/api/solicitacoes/projetos-solicitados/${alunoId}`);
     const solicitados = await solicitadosRes.json();
 
     // Criar um mapa de projetos solicitados ou aprovados
@@ -105,7 +105,7 @@ function solicitarAcesso(projetoId, botao) {
     return;
   }
 
-  fetch('https://ponte-para-o-futuro-production.up.railway.app/api/solicitacoes', {
+  fetch('http://localhost:3000/api/solicitacoes', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ aluno_id: parseInt(alunoId), projeto_id: projetoId })
@@ -133,7 +133,7 @@ function carregarMeusProjetos() {
     return;
   }
 
-  fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/solicitacoes/projetos-do-aluno?alunoId=${alunoId}`)
+  fetch(`https://http://localhost:3000/api/solicitacoes/projetos-do-aluno?alunoId=${alunoId}`)
     .then(response => {
       if (!response.ok) throw new Error("Erro ao buscar projetos.");
       return response.json();
@@ -178,7 +178,7 @@ function contarProjetosAtivos() {
     return;
   }
 
-  fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/solicitacoes/projetos-do-aluno?alunoId=${alunoId}`)
+  fetch(`http://localhost:3000/api/solicitacoes/projetos-do-aluno?alunoId=${alunoId}`)
     .then(response => {
       if (!response.ok) throw new Error("Erro ao buscar projetos.");
       return response.json();
@@ -214,7 +214,7 @@ function buscarPerfilAluno() {
     return;
   }
 
-  fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/perfil/${usuarioId}`)
+  fetch(`http://localhost:3000/api/perfil/${usuarioId}`)
     .then(response => {
       console.log("🌐 Resposta da API buscar:", response);
       if (!response.ok) {
@@ -264,7 +264,7 @@ function salvarPerfilAluno(event) {
 
   console.log("📦 Dados do formulário:", dados);
 
-  fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/perfil`, {
+  fetch(`http://localhost:3000/api/perfil`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(dados)
