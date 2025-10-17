@@ -1,5 +1,4 @@
 const mysql = require('mysql2');
-require("dotenv").config();
 
 // Pool de conexões para evitar erros de conexão fechada
 const pool = mysql.createPool({
