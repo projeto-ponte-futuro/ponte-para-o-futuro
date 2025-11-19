@@ -1,6 +1,11 @@
 const pool = require('../config/database');
 const Reuniao = require('../models/reuniao');
 
+const { logCriacaoReuniao } = require("../utils/eventLogger");
+
+logCriacaoReuniao(req.user.nome, reuniao.id);
+
+
 exports.criarReuniao = (req, res) => {
   const { id_mentor, id_projeto, id_aluno, data, hora, link_reuniao } = req.body;
 

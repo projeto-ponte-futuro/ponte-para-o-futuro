@@ -1,4 +1,7 @@
 const pool = require('../config/database');
+const { logPermissaoAdesao } = require("../utils/eventLogger");
+
+logPermissaoAdesao(req.user.nome, projetoId, alunoId);
 
 
 // Criar nova solicitação

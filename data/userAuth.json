@@ -1,0 +1,14 @@
+{
+  "users": {
+    "user123": {
+      "passwordHash": "$2b$12$abc...",
+      "previousHashes": [
+        "$2b$12$old1...",
+        "$2b$12$old2...",
+        "$2b$12$old3..."
+      ],
+      "failedAttempts": 0,
+      "lockUntil": null
+    }
+  }
+}

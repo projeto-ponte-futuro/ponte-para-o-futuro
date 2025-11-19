@@ -50,8 +50,21 @@ app.get('/parceiros', (req, res) => {
   res.sendFile(path.join(__dirname, 'frontend', 'parceiros.html'));
 });
 
-// Inicia o servidor
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
+// Servidor HTTP na porta 3000
+const http = require('http');
+http.createServer(app).listen(3000, () => {
+  console.log("Servidor HTTP rodando em http://localhost:3000");
+});
+
+// Servidor HTTPS na porta 3001
+const https = require('https');
+const fs = require('fs');
+
+const options = {
+  key: fs.readFileSync('./cert/key.pem'),
+  cert: fs.readFileSync('./cert/cert.pem')
+};
+
+https.createServer(options, app).listen(3001, () => {
+  console.log("Servidor HTTPS rodando em https://localhost:3001");
 });

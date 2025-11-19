@@ -1,0 +1,6 @@
+{
+  "passwordHash": "123",
+  "previousHashes": [],
+  "failedAttempts": 0,
+  "lockUntil": null
+}

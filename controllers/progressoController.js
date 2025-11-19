@@ -1,5 +1,10 @@
 const db = require('../config/database');
 
+const { logAlteracaoProgresso } = require("../utils/eventLogger");
+
+logAlteracaoProgresso(req.user.nome, projetoId, novoProgresso);
+
+
 exports.getProgressoProjeto = (req, res) => {
   const projetoId = req.params.id;
 

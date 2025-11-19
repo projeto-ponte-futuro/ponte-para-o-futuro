@@ -1,5 +1,11 @@
 const pool = require('../config/database');
 
+const { logCadastroProjeto } = require("../utils/eventLogger");
+
+const projeto = await Projeto.create({ });
+logCadastroProjeto(req.user.nome, projeto.id);
+
+
 // Controlador para listar os projetos cadastrados
 exports.listarProjetos = (req, res) => {
   const sql = 'SELECT id, titulo, descricao, status, data_inicio, data_termino, id_universidade FROM projetos';
