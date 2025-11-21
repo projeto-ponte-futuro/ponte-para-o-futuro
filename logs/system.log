@@ -10,3 +10,5 @@
 {"timestamp":"2025-11-20T23:42:49.888Z","event":"LOGIN_SUCESSO","username":{"usuario":"Amanda Teste","descricao":"Usuário realizou login com sucesso."},"description":null}
 {"timestamp":"2025-11-20T23:43:29.157Z","event":"LOGIN_SUCESSO","username":{"usuario":"Amanda Teste","descricao":"Usuário realizou login com sucesso."},"description":null}
 {"timestamp":"2025-11-21T00:14:19.971Z","event":"LOGIN_SUCESSO","username":{"usuario":"Amanda Teste","descricao":"Login realizado com sucesso."},"description":null}
+{"timestamp":"2025-11-21T01:54:27.395Z","event":"LOGIN_SUCESSO","username":{"usuario":"Amanda Teste","descricao":"Login realizado com sucesso."},"description":null}
+{"timestamp":"2025-11-21T01:58:16.433Z","event":"LOGIN_SUCESSO","username":{"usuario":"Amanda Teste","descricao":"Login realizado com sucesso."},"description":null}
