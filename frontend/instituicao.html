@@ -46,7 +46,7 @@
   <button class="sidebar-btn" onclick="mostrarSecao('usuarios')">Alunos</button>
   <button class="sidebar-btn" onclick="mostrarSecao('solicitacoes')">Solicitações</button>
   <button class="sidebar-btn" onclick="mostrarSecao('certificados')">Certificados</button>
-  <a href="/login.html" class="back-button">Sair</a>
+  <a href="/frontend/login.html" class="back-button">Sair</a>
 </aside>
 
     <main class="main-content">
@@ -200,32 +200,21 @@
     </main>
   </div>
 
-
-<script src="js/factoryPerfil.js"></script>
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    carregarPerfil();
-    document.getElementById('form-perfil').addEventListener('submit', salvarPerfil);
-  });
-</script>
-
-  <script>
+  // Verifica login e tipo
   document.addEventListener("DOMContentLoaded", () => {
     const dados = localStorage.getItem("usuarioLogado");
 
     if (dados) {
       const usuario = JSON.parse(dados);
 
-      // Exemplo: verificar o tipo
       if (usuario.tipo !== "instituicao") {
         alert("Acesso não autorizado.");
         window.location.href = "login.html";
       }
 
-      // Aqui você pode usar os dados do usuário normalmente
       console.log("Usuário logado:", usuario.nome);
     } else {
-      // Redireciona se não estiver logado
       window.location.href = "login.html";
     }
   });
@@ -239,34 +228,22 @@
   }
 
   window.addEventListener('DOMContentLoaded', () => {
-    // Verifica se o tipo de usuário está correto
     const tipoUsuario = localStorage.getItem("tipoUsuario");
     if (tipoUsuario !== "instituicao") {
-      // Redireciona para a tela de login se não for do tipo "instituicao"
       window.location.href = "login.html";
       return;
     }
 
-    
-
     const nomeInstituicao = localStorage.getItem("instituicaoNome") || "Instituição";
 
-
-    // Atualiza o nome no menu lateral
     const nomeElemento = document.querySelector('.institution-name');
-    if (nomeElemento) {
-      nomeElemento.textContent = nomeInstituicao;
-    }
+    if (nomeElemento) nomeElemento.textContent = nomeInstituicao;
 
-    // Atualiza o título da seção principal
     const painelTitulo = document.querySelector('#painel h2');
-    if (painelTitulo) {
-      painelTitulo.textContent = `Bem-vindo(a), ${nomeInstituicao}!`;
-    }
+    if (painelTitulo) painelTitulo.textContent = `Bem-vindo(a), ${nomeInstituicao}!`;
   });
 </script>
 
-<!-- Ativa o cadastro de projeto com a URL correta -->
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const ativarCadastroProjeto = criarCadastroProjetoHandler("http://localhost:3000/api/projetos");
@@ -274,23 +251,26 @@
   });
 </script>
 
-<!-- script para prewiew da foto de perfil e envio com fetch -->
 <script>
-  document.getElementById('foto-perfil').addEventListener('change', function (event) {
-    const file = event.target.files[0];
-    if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        document.getElementById('foto-preview').src = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
+document.addEventListener("DOMContentLoaded", () => {
+  const fotoInput = document.getElementById("foto-input");
+  const preview = document.getElementById("preview-img");
+
+  if (!fotoInput || !preview) return;
+
+  fotoInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      preview.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
   });
 
-  document.getElementById('foto-preview').addEventListener('click', () => {
-    document.getElementById('foto-perfil').click();
+  preview.addEventListener("click", () => {
+    fotoInput.click();
   });
+});
 </script>
-
-</body>
-</html>

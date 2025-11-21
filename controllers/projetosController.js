@@ -17,19 +17,37 @@ exports.listarProjetos = (req, res) => {
 
 // Controlador para cadastrar um novo projeto
 exports.cadastrarProjeto = async (req, res) => {
-  try {
-    const projeto = await Projeto.create({ ...req.body });
-    logCadastroProjeto(req.user.nome, projeto.id);
+  const { titulo, descricao, status, data_inicio, data_termino, id_universidade } = req.body;
 
-    res.status(201).json({
-      mensagem: "Projeto cadastrado com sucesso!",
-      id: projeto.id
-    });
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ mensagem: "Erro ao cadastrar projeto" });
+  if (!titulo || !descricao) {
+    return res.status(400).json({ mensagem: "Título e descrição são obrigatórios." });
   }
+
+  const sql = `
+    INSERT INTO projetos (titulo, descricao, status, data_inicio, data_termino, id_universidade)
+    VALUES (?, ?, ?, ?, ?, ?)
+  `;
+
+  pool.query(
+    sql,
+    [titulo, descricao, status, data_inicio, data_termino, id_universidade],
+    (err, result) => {
+      if (err) {
+        console.error("Erro ao cadastrar projeto:", err);
+        return res.status(500).json({ mensagem: "Erro ao cadastrar projeto" });
+      }
+
+      // ⚠ req.user pode ser undefined — só loga se existir
+      if (req.user?.nome) {
+        logCadastroProjeto(req.user.nome, result.insertId);
+      }
+
+      res.status(201).json({
+        mensagem: "Projeto cadastrado com sucesso!",
+        id: result.insertId
+      });
+    }
+  );
 };
 
 // Controlador para deletar um projeto

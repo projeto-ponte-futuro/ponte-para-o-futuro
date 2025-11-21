@@ -166,14 +166,32 @@ exports.deletarUsuario = async (req, res) => {
    LOGIN USUÁRIO + LOGS
    ========================================================= */
 exports.loginUsuario = async (req, res) => {
-  const { email, senha } = req.body;
+  // Aceita tanto nomes antigos quanto novos
+  const email =
+    req.body.email ||
+    req.body.username ||
+    req.body["login-username"] ||
+    req.body.user ||
+    null;
 
-  if (!email || !senha)
+  const senha =
+    req.body.senha ||
+    req.body.password ||
+    req.body["login-password"] ||
+    null;
+
+  if (!email || !senha) {
     return res.status(400).json({ mensagem: "Preencha todos os campos!" });
+  }
 
   try {
     const sql = "SELECT id, nome, email, tipo FROM usuarios WHERE email = ?";
     pool.query(sql, [email], async (err, results) => {
+      if (err) {
+        console.error("Erro no SQL LOGIN:", err);
+        return res.status(500).json({ mensagem: "Erro interno no servidor." });
+      }
+
       if (results.length === 0) {
         logService.write("ERRO_AUTENTICACAO", {
           usuario: email,
@@ -185,8 +203,11 @@ exports.loginUsuario = async (req, res) => {
       const usuario = results[0];
       const authData = authStorage.loadUserAuth(usuario.id);
 
-      if (!authData)
-        return res.status(500).json({ mensagem: "Erro interno: senha não encontrada." });
+      if (!authData) {
+        return res.status(500).json({
+          mensagem: "Erro interno: dados de autenticação não encontrados."
+        });
+      }
 
       if (authData.lockUntil && Date.now() < authData.lockUntil) {
         return res.status(403).json({
@@ -214,20 +235,23 @@ exports.loginUsuario = async (req, res) => {
         return res.status(401).json({ mensagem: "Senha incorreta!" });
       }
 
+      // Resetar as tentativas
       authStorage.resetAttempts(usuario.id);
 
       logService.write("LOGIN_SUCESSO", {
         usuario: usuario.nome,
-        descricao: "Usuário realizou login com sucesso."
+        descricao: "Login realizado com sucesso."
       });
 
       return res.status(200).json({
+        sucesso: true,
         mensagem: "Login realizado com sucesso!",
         usuario
       });
     });
 
   } catch (error) {
-    return res.status(500).json({ mensagem: "Erro no servidor." });
+    console.error("Erro LOGIN:", error);
+    return res.status(500).json({ mensagem: "Erro interno no servidor." });
   }
 };

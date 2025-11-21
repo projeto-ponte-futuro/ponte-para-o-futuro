@@ -1,1 +1,12 @@
 {"timestamp":"2025-11-18T23:38:49.627Z","event":"CADASTRO_USUARIO","data":{"usuario":"Amanda","descricao":"Cadastro de novo usuário."}}
+{"timestamp":"2025-11-20T23:21:37.501Z","event":"CADASTRO_USUARIO","username":{"usuario":"Amanda Teste","descricao":"Cadastro de novo usuário."},"description":null}
+{"timestamp":"2025-11-20T23:21:53.614Z","event":"LOGIN_SUCESSO","username":{"usuario":"Amanda Teste","descricao":"Usuário realizou login com sucesso."},"description":null}
+{"timestamp":"2025-11-20T23:22:46.333Z","event":"LOGIN_SUCESSO","username":{"usuario":"Amanda Teste","descricao":"Usuário realizou login com sucesso."},"description":null}
+{"timestamp":"2025-11-20T23:27:39.995Z","event":"LOGIN_SUCESSO","username":{"usuario":"Amanda Teste","descricao":"Usuário realizou login com sucesso."},"description":null}
+{"timestamp":"2025-11-20T23:33:36.979Z","event":"LOGIN_SUCESSO","username":{"usuario":"Amanda Teste","descricao":"Usuário realizou login com sucesso."},"description":null}
+{"timestamp":"2025-11-20T23:36:46.104Z","event":"LOGIN_SUCESSO","username":{"usuario":"Amanda Teste","descricao":"Usuário realizou login com sucesso."},"description":null}
+{"timestamp":"2025-11-20T23:37:53.867Z","event":"LOGIN_SUCESSO","username":{"usuario":"Amanda Teste","descricao":"Usuário realizou login com sucesso."},"description":null}
+{"timestamp":"2025-11-20T23:39:00.639Z","event":"LOGIN_SUCESSO","username":{"usuario":"Amanda Teste","descricao":"Usuário realizou login com sucesso."},"description":null}
+{"timestamp":"2025-11-20T23:42:49.888Z","event":"LOGIN_SUCESSO","username":{"usuario":"Amanda Teste","descricao":"Usuário realizou login com sucesso."},"description":null}
+{"timestamp":"2025-11-20T23:43:29.157Z","event":"LOGIN_SUCESSO","username":{"usuario":"Amanda Teste","descricao":"Usuário realizou login com sucesso."},"description":null}
+{"timestamp":"2025-11-21T00:14:19.971Z","event":"LOGIN_SUCESSO","username":{"usuario":"Amanda Teste","descricao":"Login realizado com sucesso."},"description":null}

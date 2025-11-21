@@ -63,7 +63,7 @@ function registerFailedAttempt(userId) {
     lockedNow = true;
   }
 
-  if (data.failedAttempts === 5) {
+  if (userData.failedAttempts === 5) {
   logService.write("FALHAS_AUTENTICACAO_5X", {
     usuario: userId,
     descricao: "Usuário teve 5 falhas consecutivas de autenticação."
@@ -89,7 +89,7 @@ function resetAttempts(userId) {
 
 // checa se plain corresponde a passwordHash ou a qualquer previousHashes
 async function isPasswordInPrevious(plain, userId) {
-  const bcrypt = require("bcrypt");
+  const bcrypt = require("bcryptjs");
   const userData = loadUserAuth(userId);
   if (!userData) return false;
   if (userData.passwordHash && await bcrypt.compare(plain, userData.passwordHash)) return true;
