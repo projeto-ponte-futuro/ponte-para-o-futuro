@@ -1,9 +1,9 @@
-// Arquivo script.js corrigido
-
-// ====== TRANSIÇÃO ENTRE LOGIN/CADASTRO ======
-let card = document.querySelector(".card");
-let loginButton = document.querySelector(".loginButton");
-let cadastroButton = document.querySelector(".cadastroButton");
+// =======================================
+//     TRANSIÇÃO ENTRE LOGIN/CADASTRO
+// =======================================
+const card = document.querySelector(".card");
+const loginButton = document.querySelector(".loginButton");
+const cadastroButton = document.querySelector(".cadastroButton");
 
 if (loginButton && cadastroButton && card) {
   loginButton.onclick = () => {
@@ -19,7 +19,10 @@ if (loginButton && cadastroButton && card) {
 
 let usuarioLogado = null;
 
-// ====== LOGIN ======
+
+// =======================================
+//                LOGIN
+// =======================================
 function criarLoginHandler(urlLogin) {
   return function ativarLogin() {
     const formLogin = document.getElementById("form-login");
@@ -28,8 +31,8 @@ function criarLoginHandler(urlLogin) {
     formLogin.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      const email = formLogin.querySelector('[name="login-username"]').value.trim();
-      const senha = formLogin.querySelector('[name="login-password"]').value.trim();
+      const email = formLogin["login-username"].value.trim();
+      const senha = formLogin["login-password"].value.trim();
 
       if (!email || !senha) {
         alert("Preencha todos os campos.");
@@ -43,26 +46,25 @@ function criarLoginHandler(urlLogin) {
       })
         .then((res) => res.json())
         .then((data) => {
-          if (data.sucesso) {
-            usuarioLogado = data.usuario;
+          if (!data.sucesso) return alert(data.mensagem);
 
-            localStorage.setItem("usuarioLogado", JSON.stringify(usuarioLogado));
-            localStorage.setItem("tipoUsuario", usuarioLogado.tipo);
-            localStorage.setItem("instituicaoNome", usuarioLogado.nome || "Instituição");
+          usuarioLogado = data.usuario;
 
-            aposLogin();
-          } else {
-            alert(data.mensagem || "Erro ao fazer login.");
-          }
+          localStorage.setItem("usuarioLogado", JSON.stringify(usuarioLogado));
+          localStorage.setItem("tipoUsuario", usuarioLogado.tipo);
+          localStorage.setItem("instituicaoNome", usuarioLogado.nome);
+
+          aposLogin();
         })
-        .catch((err) => {
-          console.error("Erro no login:", err);
-        });
+        .catch((err) => console.error("Erro no login:", err));
     });
   };
 }
 
-// ====== REGISTRO ======
+
+// =======================================
+//                REGISTRO
+// =======================================
 function criarRegistroHandler(urlRegistro) {
   return function ativarRegistro() {
     const formRegister = document.getElementById("form-register");
@@ -96,26 +98,26 @@ function criarRegistroHandler(urlRegistro) {
   };
 }
 
-// ====== APÓS LOGIN ======
+
+// =======================================
+//         REDIRECIONAR APÓS LOGIN
+// =======================================
 function aposLogin() {
   if (!usuarioLogado) return;
 
-  switch (usuarioLogado.tipo) {
-    case "instituicao":
-      window.location.href = "instituicao.html";
-      break;
-    case "aluno":
-      window.location.href = "aluno/aluno.html";
-      break;
-    case "mentor":
-      window.location.href = "mentor/mentor.html";
-      break;
-    default:
-      alert("Tipo de usuário desconhecido.");
-  }
+  const rotas = {
+    instituicao: "instituicao.html",
+    aluno: "aluno/aluno.html",
+    mentor: "mentor/mentor.html"
+  };
+
+  window.location.href = rotas[usuarioLogado.tipo] || "login.html";
 }
 
-// ====== CADASTRAR PROJETO ======
+
+// =======================================
+//         CADASTRAR PROJETOS
+// =======================================
 function criarCadastroProjetoHandler(urlRegistroProjeto) {
   return function ativarCadastroProjeto() {
     const form = document.getElementById("form-projetos");
@@ -130,8 +132,8 @@ function criarCadastroProjetoHandler(urlRegistroProjeto) {
       const dados = {
         titulo: form.titulo.value.trim(),
         descricao: form.descricao.value.trim(),
-        data_inicio: form.data_inicio.value.trim(),
-        data_termino: form.data_termino.value.trim(),
+        data_inicio: form.data_inicio.value,
+        data_termino: form.data_termino.value,
         status: "Em andamento",
         id_universidade: usuario.id,
       };
@@ -147,13 +149,19 @@ function criarCadastroProjetoHandler(urlRegistroProjeto) {
         body: JSON.stringify(dados),
       })
         .then((res) => res.json())
-        .then((data) => alert(data.mensagem))
+        .then((data) => {
+          alert(data.mensagem);
+          form.reset();
+        })
         .catch((err) => console.error("Erro ao cadastrar projeto:", err));
     });
   };
 }
 
-// ====== CARREGAR PROJETOS ======
+
+// =======================================
+//            CARREGAR PROJETOS
+// =======================================
 function carregarProjetos() {
   const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
   if (!usuario) return;
@@ -169,7 +177,7 @@ function carregarProjetos() {
       const meus = lista.filter((p) => p.id_universidade === usuario.id);
 
       if (meus.length === 0) {
-        tabela.innerHTML = `<tr><td colspan="6">Nenhum projeto encontrado.</td></tr>`;
+        tabela.innerHTML = `<tr><td colspan="7">Nenhum projeto encontrado.</td></tr>`;
         return;
       }
 
@@ -182,33 +190,362 @@ function carregarProjetos() {
           <td>${p.status}</td>
           <td>${new Date(p.data_inicio).toLocaleDateString()}</td>
           <td>${new Date(p.data_termino).toLocaleDateString()}</td>
+
+          <td>
+            <button class="btn-acao btn-editar" onclick="editarProjeto(${p.id})">
+              Editar
+            </button>
+
+            <button class="btn-acao btn-excluir" onclick="excluirProjeto(${p.id})">
+              Excluir
+            </button>
+          </td>
         </tr>`;
       });
     });
 }
 
-// ====== MOSTRAR SEÇÃO ======
+
+// =======================================
+//            EDITAR PROJETO
+// =======================================
+function editarProjeto(id) {
+  console.log("Abrindo modal para edição do projeto", id); // DEBUG
+
+  // Abre o modal
+  const modal = document.getElementById("modal-editar");
+  modal.classList.remove("hidden");
+
+  // Busca os dados do projeto
+  fetch(`http://localhost:3000/api/projetos/projetos/${id}`)
+    .then(res => res.json())
+    .then(p => {
+      // Preenche os campos
+      document.getElementById("editId").value = p.id;
+      document.getElementById("editTitulo").value = p.titulo;
+      document.getElementById("editDescricao").value = p.descricao;
+      document.getElementById("editStatus").value = p.status;
+      document.getElementById("editDataInicio").value = p.data_inicio?.split("T")[0];
+      document.getElementById("editDataTermino").value = p.data_termino?.split("T")[0];
+    })
+    .catch(err => console.error("Erro ao carregar dados:", err));
+}
+
+
+// =======================================
+//          SALVAR EDIÇÃO (PUT)
+// =======================================
+function salvarEdicao() {
+  const id = document.getElementById("editId").value;
+
+  const dados = {
+    titulo: document.getElementById("editTitulo").value,
+    descricao: document.getElementById("editDescricao").value,
+    status: document.getElementById("editStatus").value,
+    data_inicio: document.getElementById("editDataInicio").value,
+    data_termino: document.getElementById("editDataTermino").value
+  };
+
+  fetch(`http://localhost:3000/api/projetos/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(dados)
+  })
+    .then(res => res.json())
+    .then(() => {
+      alert("Projeto atualizado!");
+      fecharModal();
+      carregarProjetos();
+    })
+    .catch(() => alert("Erro ao atualizar"));
+}
+
+
+// =======================================
+//          EXCLUIR PROJETO
+// =======================================
+function excluirProjeto(id) {
+  if (!confirm("Tem certeza que deseja excluir este projeto?")) return;
+
+  fetch(`http://localhost:3000/api/projetos/${id}`, {
+    method: "DELETE"
+  })
+    .then(res => {
+      if (!res.ok) throw new Error();
+      alert("Projeto excluído com sucesso!");
+      carregarProjetos();
+    })
+    .catch(() => alert("Erro ao excluir."));
+}
+
+
+// =======================================
+//           FECHAR MODAL
+// =======================================
+function fecharModal() {
+  document.getElementById("modal-editar").classList.add("hidden");
+}
+
+
+// =======================================
+//            MUDAR SEÇÕES
+// =======================================
 function mostrarSecao(secaoId) {
-  document.querySelectorAll('.secao-dashboard').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll(".secao-dashboard")
+    .forEach(s => s.classList.remove("active"));
 
   const secao = document.getElementById(secaoId);
-  if (secao) secao.classList.add('active');
+  if (secao) secao.classList.add("active");
 
   if (secaoId === "listar-projetos") carregarProjetos();
   if (secaoId === "usuarios") carregarAlunos();
-  if (secaoId === "painel") atualizarPainelResumo();
+  if (secaoId === "solicitacoes") carregarSolicitacoes();
 }
 
-// ====== INICIALIZAÇÃO GERAL ======
-document.addEventListener("DOMContentLoaded", () => {
 
-  const ativarLogin = criarLoginHandler("http://localhost:3000/api/users/login");
-  ativarLogin();
+// =======================================
+//        CARREGAR ALUNOS
+// =======================================
+function carregarAlunos() {
+  const tabela = document.getElementById("corpo-tabela-alunos");
+  if (!tabela) return;
 
-  const ativarRegistro = criarRegistroHandler("http://localhost:3000/api/users");
-  ativarRegistro();
+  fetch("http://localhost:3000/api/users")
+    .then(res => res.json())
+    .then(lista => {
+      tabela.innerHTML = "";
 
-  const ativarCadastroProjeto = criarCadastroProjetoHandler("http://localhost:3000/api/projetos");
-  ativarCadastroProjeto();
+      const alunos = lista.filter(u => u.tipo === "aluno");
 
+      if (alunos.length === 0) {
+        tabela.innerHTML = `<tr><td colspan="3">Nenhum aluno encontrado.</td></tr>`;
+        return;
+      }
+
+      alunos.forEach((a) => {
+        tabela.innerHTML += `
+        <tr>
+          <td>${a.id}</td>
+          <td>${a.nome}</td>
+          <td>${a.email}</td>
+        </tr>`;
+      });
+    });
+}
+
+
+// =======================================
+//        CARREGAR SOLICITAÇÕES
+// =======================================
+function carregarSolicitacoes() {
+  const tabela = document.getElementById("tabela-solicitacoes");
+  if (!tabela) return;
+
+  fetch("http://localhost:3000/api/solicitacoes")
+    .then((res) => res.json())
+    .then((lista) => {
+      tabela.innerHTML = "";
+
+      if (!lista || lista.length === 0) {
+        tabela.innerHTML = `<tr><td colspan="4">Nenhuma solicitação pendente.</td></tr>`;
+        return;
+      }
+
+      lista.forEach((s) => {
+        tabela.innerHTML += `
+        <tr>
+          <td>${s.nome_aluno}</td>
+          <td>${s.titulo_projeto}</td>
+          <td>${s.status}</td>
+          <td>
+            <button onclick="abrirResposta(${s.id}, '${s.nome_aluno}', '${s.titulo_projeto}')">
+              Responder
+            </button>
+          </td>
+        </tr>`;
+      });
+    });
+}
+
+//FUNCTION DA PÁGINA DE GESTÃO DE ALUNOS (CRIAR, ATUALIZAR E DELETAR)
+
+const API_URL = "http://localhost:3000/api/users";
+
+let alunos = [];
+const lista = document.getElementById("listaAlunos");
+const modal = document.getElementById("modal");
+let editando = null;
+
+/* ===========================
+   LISTAR ALUNOS DO BANCO
+=========================== */
+async function carregarAlunos() {
+  try {
+    const res = await fetch(API_URL);
+    const data = await res.json();
+
+    // Mantém apenas usuários com tipo "aluno"
+    alunos = data.filter(u => u.tipo === "aluno" || u.tipo === 1);
+
+    atualizarTabela();
+  } catch (err) {
+    console.error("Erro ao carregar alunos:", err);
+  }
+}
+
+/* ===========================
+   ATUALIZAR TABELA
+=========================== */
+function atualizarTabela() {
+  lista.innerHTML = "";
+  alunos.forEach((aluno) => {
+    lista.innerHTML += `
+      <tr>
+        <td>${aluno.id}</td>
+        <td>${aluno.nome}</td>
+        <td>${aluno.email}</td>
+        <td>${aluno.curso || "-"}</td>
+        <td>
+          <button class="btn-acao editar" onclick="editar(${aluno.id})">Editar</button>
+          <button class="btn-acao excluir" onclick="remover(${aluno.id})">Excluir</button>
+        </td>
+      </tr>
+    `;
+  });
+}
+
+/* ===========================
+   MODAL CONTROLES
+=========================== */
+function abrirModal() {
+  modal.classList.remove("hidden");
+}
+
+function fecharModal() {
+  modal.classList.add("hidden");
+  document.getElementById("nome").value = "";
+  document.getElementById("email").value = "";
+  document.getElementById("curso").value = "";
+  document.getElementById("senha").value = "";
+  editando = null;
+}
+
+/* ===========================
+   BOTÃO ADICIONAR
+=========================== */
+document.getElementById("btnAdd").addEventListener("click", () => {
+  document.getElementById("modalTitulo").innerText = "Adicionar Aluno";
+  abrirModal();
 });
+
+/* ===========================
+   BOTÃO CANCELAR
+=========================== */
+document.getElementById("btnFechar").addEventListener("click", fecharModal);
+
+/* ===========================
+   SALVAR (CRIAR / EDITAR)
+=========================== */
+document.getElementById("btnSalvar").addEventListener("click", async () => {
+  const nome = document.getElementById("nome").value;
+  const email = document.getElementById("email").value;
+  const curso = document.getElementById("curso").value;
+  const senha = document.getElementById("senha").value;
+
+  if (!nome || !email || (!editando && !senha)) {
+    alert("Preencha todos os campos obrigatórios (senha apenas no cadastro).");
+    return;
+  }
+
+  const dados = {
+    nome,
+    email,
+    curso,
+    tipo: "aluno",
+    ...(senha ? { senha } : {}) // só enviar senha se existir
+  };
+
+  try {
+    if (editando) {
+      // EDITAR
+      await fetch(`${API_URL}/${editando}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dados)
+      });
+
+      alert("Aluno atualizado!");
+    } else {
+      // CRIAR NOVO
+      await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dados)
+      });
+
+      alert("Aluno cadastrado!");
+    }
+
+    fecharModal();
+    carregarAlunos();
+
+  } catch (err) {
+    console.error("Erro ao salvar aluno:", err);
+    alert("Erro ao salvar aluno.");
+  }
+});
+
+/* ===========================
+   EDITAR ALUNO
+=========================== */
+function editar(id) {
+  const aluno = alunos.find((a) => a.id === id);
+
+  editando = id;
+
+  document.getElementById("modalTitulo").innerText = "Editar Aluno";
+  document.getElementById("nome").value = aluno.nome;
+  document.getElementById("email").value = aluno.email;
+  document.getElementById("curso").value = aluno.curso || "";
+  document.getElementById("senha").value = ""; // senha não pode ser exibida
+
+  abrirModal();
+}
+
+/* ===========================
+   REMOVER ALUNO
+=========================== */
+async function remover(id) {
+  if (!confirm("Deseja realmente excluir este aluno?")) return;
+
+  try {
+    await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+    alert("Aluno removido!");
+    carregarAlunos();
+  } catch (err) {
+    console.error("Erro ao excluir aluno:", err);
+    alert("Erro ao excluir aluno.");
+  }
+}
+
+/* ===========================
+   INICIALIZAÇÃO
+=========================== */
+carregarAlunos();
+
+
+// =======================================
+//        INICIALIZAÇÃO GLOBAL
+// =======================================
+document.addEventListener("DOMContentLoaded", () => {
+  criarLoginHandler("http://localhost:3000/api/users/login")();
+  criarRegistroHandler("http://localhost:3000/api/users")();
+  criarCadastroProjetoHandler("http://localhost:3000/api/projetos")();
+});
+
+window.editarProjeto = editarProjeto;
+window.salvarEdicao = salvarEdicao;
+window.excluirProjeto = excluirProjeto;
+window.fecharModal = fecharModal;
+
+

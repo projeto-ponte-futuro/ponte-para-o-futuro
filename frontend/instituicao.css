@@ -85,11 +85,6 @@ body {
   cursor: pointer;
 }
 
-/* Modal da foto */
-.modal.hidden {
-  display: none;
-}
-
 .modal {
   position: fixed;
   top: 50%;
@@ -557,3 +552,4 @@ button:hover {
   border-bottom: 1px solid #eee;
   font-size: 0.95rem;
 }
+

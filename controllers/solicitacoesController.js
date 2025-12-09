@@ -4,7 +4,7 @@ const { logPermissaoAdesao } = require("../utils/eventLogger");
 // Criar nova solicitação
 exports.criarSolicitacao = (req, res) => {
   const { aluno_id, projeto_id } = req.body;
-  const sql = 'INSERT INTO alunos_projetos (aluno_id, projeto_id) VALUES (?, ?)';
+  const sql = 'INSERT INTO alunos_projetos (aluno_id, projeto_id) VALUES (?, ?, solicitado)';
 
   pool.query(sql, [aluno_id, projeto_id], (err) => {
     if (err) {

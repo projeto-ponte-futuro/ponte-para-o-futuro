@@ -677,6 +677,7 @@ table tr:nth-child(even) {
   display: none;
 }
 
+
 .modal-content {
   background: #2f333b;
   padding: 24px;
@@ -982,4 +983,86 @@ button#btnSalvarEtapa:hover {
   border-radius: 4px;
 }
 
+/* ===========================
+   MODAL EDITAR - FORTE/CENTRAL
+   =========================== */
 
+#modal-editar1 {
+  position: initial !important;    /* garante comportamento no viewport */
+  inset: 0 !important;           /* top:0; right:0; bottom:0; left:0 */
+  width: 100vw !important;
+  height: 100vh !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  background: rgba(0,0,0,0.45) !important; /* overlay */
+  z-index: 99999 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: auto; /* caso modal-content seja alto em telas pequenas */
+}
+
+/* esconder flag */
+#modal-editar.hidden {
+  display: none !important;
+}
+
+/* caixa do modal (centrada pelo flex do overlay) */
+#modal-editar1 .modal-content1 {
+  width: 380px;
+  max-width: calc(100% - 40px);
+  background: #ffffff;
+  color: #222;
+  padding: 20px 22px;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  transform: none !important; /* evita transforms herdados */
+  position: relative;
+  margin: 0 auto;
+}
+
+/* botões e inputs */
+#modal-editar1 .modal-content1 input,
+#modal-editar1 .modal-content1 select,
+#modal-editar1 .modal-content1 textarea {
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #dcdcdc;
+  margin-top: 8px;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+#modal-editar1 .modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+#modal-editar1 .btn-salvar {
+  flex: 1;
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#modal-editar1 .btn-cancelar {
+  flex: 1;
+  background: #e0e0e0;
+  color: #222;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* animação leve */
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+#modal-editar .modal-content { animation: modalFadeIn .18s ease-out; }

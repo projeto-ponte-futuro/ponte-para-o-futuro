@@ -16,7 +16,7 @@ exports.cadastrarUsuario = async (req, res) => {
     }
 
     const check = validatePassword(senha);
-    if (!check.ok) return res.status(400).json({ error: check.message });
+    if (!check.ok) return res.status(400).json({ mensagem: check.message });
 
     const passwordHash = await bcrypt.hash(senha, 12);
 
@@ -220,16 +220,16 @@ exports.loginUsuario = async (req, res) => {
       if (!senhaCorreta) {
         const attempts = authStorage.registerFailedAttempt(usuario.id);
 
-        logService.write("ERRO_AUTENTICACAO", {
-          usuario: usuario.nome,
-          descricao: "Senha incorreta."
-        });
+        logService.write("ERRO_AUTENTICACAO", 
+          usuario.nome,
+          "Senha incorreta."
+        );
 
         if (attempts === 5) {
-          logService.write("FALHAS_CONSECUTIVAS", {
-            usuario: usuario.nome,
-            descricao: "5 falhas consecutivas de login no mesmo dia."
-          });
+          logService.write("FALHAS_CONSECUTIVAS", 
+          usuario.nome,
+          "5 falhas consecutivas de login no mesmo dia."
+          );
         }
 
         return res.status(401).json({ mensagem: "Senha incorreta!" });

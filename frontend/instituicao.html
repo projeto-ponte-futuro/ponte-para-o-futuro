@@ -4,10 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Página da Instituição</title>
-  <link rel="stylesheet" href="aluno/aluno.css" />
+  <link rel="stylesheet" href="/frontend/aluno/aluno.css" />
   <script src="script.js" defer></script>
 </head>
+
 <body class="instituicao">
+
+
   <div class="dashboard">
    <aside class="sidebar">
   <!-- Container da foto com ícone de câmera -->
@@ -42,11 +45,11 @@
 
   <button class="sidebar-btn home" onclick="mostrarSecao('painel')">🏠</button>
   <button class="sidebar-btn" onclick="mostrarSecao('projetos')">Cadastro de Projetos</button>
-  <button class="sidebar-btn" onclick="mostrarSecao('listar-projetos')">Visualizar Projetos</button>
-  <button class="sidebar-btn" onclick="mostrarSecao('usuarios')">Alunos</button>
+  <button class="sidebar-btn" onclick="mostrarSecao('listar-projetos')">Projetos</button>
+  <button class="sidebar-btn" onclick="mostrarSecao('usuarios')">Gestão de Alunos</button>
   <button class="sidebar-btn" onclick="mostrarSecao('solicitacoes')">Solicitações</button>
   <button class="sidebar-btn" onclick="mostrarSecao('certificados')">Certificados</button>
-  <a href="/frontend/login.html" class="back-button">Sair</a>
+  <a href="login.html" class="back-button">Sair</a>
 </aside>
 
     <main class="main-content">
@@ -99,7 +102,7 @@
       <section id="projetos" class="secao-dashboard">
 
          <a href="/" class="voltar-button">
-    <img src="/frontend/assets/seta-para-a-esquerda.png" alt="Voltar" />
+    <img src="seta-para-a-esquerda.png" alt="Voltar" />
   </a>
         <h2>Cadastro de Projetos</h2>
         <form id="form-projetos" method="POST">
@@ -111,22 +114,62 @@
         </form>
       </section>
 
-      <section id="listar-projetos" class="secao-dashboard">
-        <h2>Projetos Cadastrados</h2>
-        <table border="1">
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Título</th>
-              <th>Descrição</th>
-              <th>Status</th>
-              <th>Data Início</th>
-              <th>Data Término</th>
-            </tr>
-          </thead>
-          <tbody id="tabela-projetos"></tbody>
-        </table>
-      </section>
+   <section id="listar-projetos" class="secao-dashboard">
+  <h2>Projetos Cadastrados</h2>
+
+  <div class="tabela-container">
+    <table class="tabela-projetos">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Título</th>
+          <th>Descrição</th>
+          <th>Status</th>
+          <th>Data Início</th>
+          <th>Data Término</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+
+      <tbody id="tabela-projetos"></tbody>
+
+
+    </table>
+  </div>
+
+  <div id="modal-editar1" class="modal hidden">
+  <div class="modal-content1">
+    <h3>Editar Projeto</h3>
+
+    <input type="hidden" id="editId">
+
+    <label>Título</label>
+    <input type="text" id="editTitulo">
+
+    <label>Descrição</label>
+    <input type="text" id="editDescricao">
+
+    <label>Status</label>
+    <select id="editStatus">
+      <option value="em andamento">Em andamento</option>
+      <option value="pendente">Pendente</option>
+      <option value="finalizado">Finalizado</option>
+    </select>
+
+    <label>Data Início</label>
+    <input type="date" id="editDataInicio">
+
+    <label>Data Término</label>
+    <input type="date" id="editDataTermino">
+
+    <button onclick="salvarEdicao()">Salvar</btnbutton>
+    <button onclick="fecharModal()">Cancelar</btnbutton>
+  </div>
+</div>
+
+</section>
+
+
 
       <section id="usuarios" class="secao-dashboard">
         
@@ -134,17 +177,40 @@
     <img src="/frontend/assets/seta-para-a-esquerda.png" alt="Voltar" />
   </a>
 
-        <h2>Alunos Cadastrados</h2>
-        <table border="1">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Nome</th>
-              <th>Email</th>
-            </tr>
-          </thead>
-          <tbody id="corpo-tabela-alunos"></tbody>
-        </table>
+        <h2>Gestão de alunos</h2>
+       <body> 
+<div class="container"> 
+<button id="btnAdd" class="btn-primary">+ Adicionar Aluno</button> 
+<table class="tabela"> 
+<thead> 
+<tr> 
+<th>ID</th> 
+<th>Nome</th> 
+<th>Email</th> 
+<th>Curso</th> 
+<th>Ações</th> 
+</tr> 
+</thead> 
+<tbody id="listaAlunos"></tbody> 
+</table> 
+</div> 
+<div id="modal" class="modal hidden"> 
+<div class="modal-content"> 
+<h2 id="modalTitulo">Adicionar Aluno</h2> 
+<label>Nome:</label> 
+<input type="text" id="nome" /> 
+<label>Email:</label> 
+<input type="email" id="email" /> 
+<label>Curso:</label> 
+<input type="text" id="curso" /> 
+<div class="modal-actions"> 
+<button id="btnSalvar" class="btn-primary">Salvar</button> 
+<button id="btnFechar" class="btn-secondary">Cancelar</button> 
+</div> 
+</div> 
+</div> 
+<script src="script.js"></script> 
+</body>
       </section>
 
       <section id="solicitacoes" class="secao-dashboard">
@@ -220,29 +286,6 @@
   });
 </script>
 
-<script>
-  function mostrarSecao(secaoId) {
-    const secoes = document.querySelectorAll('.secao-dashboard');
-    secoes.forEach(secao => secao.classList.remove('active'));
-    document.getElementById(secaoId)?.classList.add('active');
-  }
-
-  window.addEventListener('DOMContentLoaded', () => {
-    const tipoUsuario = localStorage.getItem("tipoUsuario");
-    if (tipoUsuario !== "instituicao") {
-      window.location.href = "login.html";
-      return;
-    }
-
-    const nomeInstituicao = localStorage.getItem("instituicaoNome") || "Instituição";
-
-    const nomeElemento = document.querySelector('.institution-name');
-    if (nomeElemento) nomeElemento.textContent = nomeInstituicao;
-
-    const painelTitulo = document.querySelector('#painel h2');
-    if (painelTitulo) painelTitulo.textContent = `Bem-vindo(a), ${nomeInstituicao}!`;
-  });
-</script>
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {

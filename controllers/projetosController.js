@@ -38,9 +38,8 @@ exports.cadastrarProjeto = async (req, res) => {
       }
 
       // ⚠ req.user pode ser undefined — só loga se existir
-      if (req.user?.nome) {
-        logCadastroProjeto(req.user.nome, result.insertId);
-      }
+     const usuario = req.user?.nome || "Sistema/Desconhecido";
+    logCadastroProjeto(usuario, result.insertId);
 
       res.status(201).json({
         mensagem: "Projeto cadastrado com sucesso!",
@@ -68,5 +67,39 @@ exports.deletarProjeto = (req, res) => {
 
     res.json({ mensagem: 'Projeto deletado com sucesso' });
   });
+};
+
+//Controlador para EDITAR um projeto 
+
+exports.editarProjeto = (req, res) => {
+  const { id } = req.params;
+  const { titulo, descricao, status, data_inicio, data_termino } = req.body;
+
+  if (!titulo || !descricao) {
+    return res.status(400).json({ mensagem: "Título e descrição são obrigatórios." });
+  }
+
+  const sql = `
+    UPDATE projetos
+    SET titulo = ?, descricao = ?, status = ?, data_inicio = ?, data_termino = ?
+    WHERE id = ?
+  `;
+
+  pool.query(
+    sql,
+    [titulo, descricao, status, data_inicio, data_termino, id],
+    (err, result) => {
+      if (err) {
+        console.error("Erro ao atualizar projeto:", err);
+        return res.status(500).json({ mensagem: "Erro ao atualizar projeto" });
+      }
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ mensagem: "Projeto não encontrado." });
+      }
+
+      res.json({ mensagem: "Projeto atualizado com sucesso!" });
+    }
+  );
 };
 

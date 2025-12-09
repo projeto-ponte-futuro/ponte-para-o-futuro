@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const projetosController = require('../controllers/projetosController');
 const db = require('../config/database');
+const auth = require ('../utils/auth')
 
 
 // Listar projetos
@@ -9,9 +10,15 @@ router.get('/', projetosController.listarProjetos);
 
 // Rota para cadastrar um novo projeto
 router.post('/', projetosController.cadastrarProjeto);
+router.post("/cadastrarProjeto", auth, projetosController.cadastrarProjeto);
 
 // Rota para deletar projeto
 router.delete('/projetos/:id', projetosController.deletarProjeto);
+
+//Rota para editar um projeto
+router.put('/projetos/:id', projetosController.editarProjeto);
+
+
 // Buscar etapas de um projeto
 router.get('/:id/etapas', (req, res) => {
   const sql = `
