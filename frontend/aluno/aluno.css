@@ -10,7 +10,8 @@ body {
   background-color: #f8fafc;
   color: #1e293b;
   height: 100vh;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .dashboard {
@@ -75,7 +76,7 @@ body {
 }
 
 .modal {
-  position: fixed;
+  position: flex;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -987,19 +988,16 @@ button#btnSalvarEtapa:hover {
    MODAL EDITAR - FORTE/CENTRAL
    =========================== */
 
-#modal-editar1 {
-  position: initial !important;    /* garante comportamento no viewport */
-  inset: 0 !important;           /* top:0; right:0; bottom:0; left:0 */
-  width: 100vw !important;
-  height: 100vh !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  background: rgba(0,0,0,0.45) !important; /* overlay */
+#modal-editar {
+  margin-left: 800px; /* mesma largura da sidebar */
+  margin-top: 300px;
+  /* já tem outras propriedades */
+  flex: 1;
+  width: 500px;
+  height: 550px;
+  overflow-y: auto;
+  background: #1e293b; /* overlay */
   z-index: 99999 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  overflow: auto; /* caso modal-content seja alto em telas pequenas */
 }
 
 /* esconder flag */
@@ -1008,23 +1006,24 @@ button#btnSalvarEtapa:hover {
 }
 
 /* caixa do modal (centrada pelo flex do overlay) */
-#modal-editar1 .modal-content1 {
-  width: 380px;
+#modal-editar .modal-content {
+  width: 480px;
+  height: 500px;
   max-width: calc(100% - 40px);
-  background: #ffffff;
+  background: #f9f9f9;
   color: #222;
   padding: 20px 22px;
   border-radius: 12px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  box-shadow: 0 8px 0px rgba(8, 8, 8, 0.25);
   transform: none !important; /* evita transforms herdados */
   position: relative;
-  margin: 0 auto;
+  margin: 2;
 }
 
 /* botões e inputs */
-#modal-editar1 .modal-content1 input,
-#modal-editar1 .modal-content1 select,
-#modal-editar1 .modal-content1 textarea {
+#modal-editar .modal-content1 input,
+#modal-editar .modal-content1 select,
+#modal-editar .modal-content1 textarea {
   width: 100%;
   padding: 8px;
   border-radius: 8px;
@@ -1034,13 +1033,13 @@ button#btnSalvarEtapa:hover {
   font-size: 14px;
 }
 
-#modal-editar1 .modal-actions {
+#modal-editar .modal-actions {
   display: flex;
   gap: 10px;
   margin-top: 8px;
 }
 
-#modal-editar1 .btn-salvar {
+#modal-editar .btn-salvar {
   flex: 1;
   background: #007bff;
   color: white;
@@ -1050,10 +1049,10 @@ button#btnSalvarEtapa:hover {
   cursor: pointer;
 }
 
-#modal-editar1 .btn-cancelar {
+#modal-editar .btn-cancelar {
   flex: 1;
-  background: #e0e0e0;
-  color: #222;
+  background: #af0101;
+  color: #dedede;
   border: none;
   padding: 10px;
   border-radius: 8px;

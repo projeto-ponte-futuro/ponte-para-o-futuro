@@ -39,3 +39,5 @@
 {"timestamp":"2025-11-28T23:17:19.792Z","event":"CADASTRO_USUARIO","username":{"usuario":"Teste","descricao":"Cadastro de novo usuário."},"description":null}
 {"timestamp":"2025-11-28T23:18:08.004Z","event":"LOGIN_SUCESSO","username":{"usuario":"Amanda Teste","descricao":"Login realizado com sucesso."},"description":null}
 {"timestamp":"2025-12-09T00:05:33.662Z","event":"LOGIN_SUCESSO","username":{"usuario":"Amanda Teste","descricao":"Login realizado com sucesso."},"description":null}
+{"timestamp":"2025-12-10T23:28:59.270Z","event":"LOGIN_SUCESSO","username":{"usuario":"Amanda Teste","descricao":"Login realizado com sucesso."},"description":null}
+{"timestamp":"2025-12-10T23:38:00.214Z","event":"LOGIN_SUCESSO","username":{"usuario":"Amanda Teste","descricao":"Login realizado com sucesso."},"description":null}

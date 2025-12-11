@@ -50,7 +50,7 @@ exports.cadastrarProjeto = async (req, res) => {
 };
 
 // Controlador para deletar um projeto
-exports.deletarProjeto = (req, res) => {
+exports.excluirProjeto = (req, res) => {
   const { id } = req.params;
 
   const sql = 'DELETE FROM projetos WHERE id = ?';
@@ -102,4 +102,6 @@ exports.editarProjeto = (req, res) => {
     }
   );
 };
+
+
 

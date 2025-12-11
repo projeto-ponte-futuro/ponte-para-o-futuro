@@ -13,10 +13,10 @@ router.post('/', projetosController.cadastrarProjeto);
 router.post("/cadastrarProjeto", auth, projetosController.cadastrarProjeto);
 
 // Rota para deletar projeto
-router.delete('/projetos/:id', projetosController.deletarProjeto);
+router.delete('/:id', projetosController.excluirProjeto);
 
 //Rota para editar um projeto
-router.put('/projetos/:id', projetosController.editarProjeto);
+router.put('/:id', projetosController.editarProjeto);
 
 
 // Buscar etapas de um projeto

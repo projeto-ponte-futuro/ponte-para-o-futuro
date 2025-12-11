@@ -150,7 +150,7 @@ exports.deletarUsuario = async (req, res) => {
 
       // log
       logService.write("EXCLUSAO_USUARIO", {
-        usuario: nome,
+        usuario: usuario[0].nome,
         descricao: "Usuário excluído do sistema."
       });
 

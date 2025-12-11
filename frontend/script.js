@@ -217,7 +217,7 @@ function editarProjeto(id) {
   modal.classList.remove("hidden");
 
   // Busca os dados do projeto
-  fetch(`http://localhost:3000/api/projetos/projetos/${id}`)
+  fetch(`http://localhost:3000/api/projetos/${id}`)
     .then(res => res.json())
     .then(p => {
       // Preenche os campos
@@ -231,9 +231,7 @@ function editarProjeto(id) {
     .catch(err => console.error("Erro ao carregar dados:", err));
 }
 
-
-// =======================================
-//          SALVAR EDIÇÃO (PUT)
+//          SALVAR EDIÇÃO DE PROJETO (PUT)
 // =======================================
 function salvarEdicao() {
   const id = document.getElementById("editId").value;
@@ -245,6 +243,7 @@ function salvarEdicao() {
     data_inicio: document.getElementById("editDataInicio").value,
     data_termino: document.getElementById("editDataTermino").value
   };
+  
 
   fetch(`http://localhost:3000/api/projetos/${id}`, {
     method: "PUT",
@@ -253,6 +252,7 @@ function salvarEdicao() {
   })
     .then(res => res.json())
     .then(() => {
+      console.log("OBJETO RECEBIDO DO BACKEND:", p);
       alert("Projeto atualizado!");
       fecharModal();
       carregarProjetos();
@@ -266,6 +266,8 @@ function salvarEdicao() {
 // =======================================
 function excluirProjeto(id) {
   if (!confirm("Tem certeza que deseja excluir este projeto?")) return;
+
+   console.log("ID ENVIADO NO PUT:", id);
 
   fetch(`http://localhost:3000/api/projetos/${id}`, {
     method: "DELETE"
@@ -307,7 +309,7 @@ function mostrarSecao(secaoId) {
 //        CARREGAR ALUNOS
 // =======================================
 function carregarAlunos() {
-  const tabela = document.getElementById("corpo-tabela-alunos");
+  const tabela = document.getElementById("listaAlunos");
   if (!tabela) return;
 
   fetch("http://localhost:3000/api/users")
@@ -367,32 +369,6 @@ function carregarSolicitacoes() {
     });
 }
 
-//FUNCTION DA PÁGINA DE GESTÃO DE ALUNOS (CRIAR, ATUALIZAR E DELETAR)
-
-const API_URL = "http://localhost:3000/api/users";
-
-let alunos = [];
-const lista = document.getElementById("listaAlunos");
-const modal = document.getElementById("modal");
-let editando = null;
-
-/* ===========================
-   LISTAR ALUNOS DO BANCO
-=========================== */
-async function carregarAlunos() {
-  try {
-    const res = await fetch(API_URL);
-    const data = await res.json();
-
-    // Mantém apenas usuários com tipo "aluno"
-    alunos = data.filter(u => u.tipo === "aluno" || u.tipo === 1);
-
-    atualizarTabela();
-  } catch (err) {
-    console.error("Erro ao carregar alunos:", err);
-  }
-}
-
 /* ===========================
    ATUALIZAR TABELA
 =========================== */
@@ -413,126 +389,6 @@ function atualizarTabela() {
     `;
   });
 }
-
-/* ===========================
-   MODAL CONTROLES
-=========================== */
-function abrirModal() {
-  modal.classList.remove("hidden");
-}
-
-function fecharModal() {
-  modal.classList.add("hidden");
-  document.getElementById("nome").value = "";
-  document.getElementById("email").value = "";
-  document.getElementById("curso").value = "";
-  document.getElementById("senha").value = "";
-  editando = null;
-}
-
-/* ===========================
-   BOTÃO ADICIONAR
-=========================== */
-document.getElementById("btnAdd").addEventListener("click", () => {
-  document.getElementById("modalTitulo").innerText = "Adicionar Aluno";
-  abrirModal();
-});
-
-/* ===========================
-   BOTÃO CANCELAR
-=========================== */
-document.getElementById("btnFechar").addEventListener("click", fecharModal);
-
-/* ===========================
-   SALVAR (CRIAR / EDITAR)
-=========================== */
-document.getElementById("btnSalvar").addEventListener("click", async () => {
-  const nome = document.getElementById("nome").value;
-  const email = document.getElementById("email").value;
-  const curso = document.getElementById("curso").value;
-  const senha = document.getElementById("senha").value;
-
-  if (!nome || !email || (!editando && !senha)) {
-    alert("Preencha todos os campos obrigatórios (senha apenas no cadastro).");
-    return;
-  }
-
-  const dados = {
-    nome,
-    email,
-    curso,
-    tipo: "aluno",
-    ...(senha ? { senha } : {}) // só enviar senha se existir
-  };
-
-  try {
-    if (editando) {
-      // EDITAR
-      await fetch(`${API_URL}/${editando}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dados)
-      });
-
-      alert("Aluno atualizado!");
-    } else {
-      // CRIAR NOVO
-      await fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dados)
-      });
-
-      alert("Aluno cadastrado!");
-    }
-
-    fecharModal();
-    carregarAlunos();
-
-  } catch (err) {
-    console.error("Erro ao salvar aluno:", err);
-    alert("Erro ao salvar aluno.");
-  }
-});
-
-/* ===========================
-   EDITAR ALUNO
-=========================== */
-function editar(id) {
-  const aluno = alunos.find((a) => a.id === id);
-
-  editando = id;
-
-  document.getElementById("modalTitulo").innerText = "Editar Aluno";
-  document.getElementById("nome").value = aluno.nome;
-  document.getElementById("email").value = aluno.email;
-  document.getElementById("curso").value = aluno.curso || "";
-  document.getElementById("senha").value = ""; // senha não pode ser exibida
-
-  abrirModal();
-}
-
-/* ===========================
-   REMOVER ALUNO
-=========================== */
-async function remover(id) {
-  if (!confirm("Deseja realmente excluir este aluno?")) return;
-
-  try {
-    await fetch(`${API_URL}/${id}`, { method: "DELETE" });
-    alert("Aluno removido!");
-    carregarAlunos();
-  } catch (err) {
-    console.error("Erro ao excluir aluno:", err);
-    alert("Erro ao excluir aluno.");
-  }
-}
-
-/* ===========================
-   INICIALIZAÇÃO
-=========================== */
-carregarAlunos();
-
 
 // =======================================
 //        INICIALIZAÇÃO GLOBAL

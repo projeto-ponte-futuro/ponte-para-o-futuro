@@ -10,7 +10,6 @@
 
 <body class="instituicao">
 
-
   <div class="dashboard">
    <aside class="sidebar">
   <!-- Container da foto com ícone de câmera -->
@@ -133,12 +132,16 @@
 
       <tbody id="tabela-projetos"></tbody>
 
+      
 
     </table>
   </div>
 
-  <div id="modal-editar1" class="modal hidden">
-  <div class="modal-content1">
+
+</section>
+
+ <div id="modal-editar" class="modal hidden">
+  <div class="modal-content">
     <h3>Editar Projeto</h3>
 
     <input type="hidden" id="editId">
@@ -162,14 +165,10 @@
     <label>Data Término</label>
     <input type="date" id="editDataTermino">
 
-    <button onclick="salvarEdicao()">Salvar</btnbutton>
-    <button onclick="fecharModal()">Cancelar</btnbutton>
+    <button class="btn-salvar" onclick="salvarEdicao()">Salvar</button>
+    <button class="btn-cancelar" onclick="fecharModal()">Cancelar</button>
   </div>
 </div>
-
-</section>
-
-
 
       <section id="usuarios" class="secao-dashboard">
         
