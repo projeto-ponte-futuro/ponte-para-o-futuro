@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Página do Mentor</title>
+  <link rel="stylesheet" href="mentor.css" />
+  <script src="mentor.js" defer></script>
+</head>
+<body class="instituicao">
+  <div class="dashboard">
+     <aside class="sidebar">
+  <!-- Container da foto com ícone de câmera -->
+  <div class="upload-container">
+    <label for="foto-input" class="upload-label" style="cursor: pointer;">
+      <div class="profile-pic-container">
+        <img
+          id="preview-img"
+          class="profile-pic"
+          src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+          alt="Foto de perfil"
+        />
+        <span class="icon-overlay">📷</span>
+      </div>
+    </label>
+    <input type="file" id="foto-input" name="foto" accept="image/*" hidden />
+  </div>
+
+    <!-- Modal flutuante central -->
+    <div id="foto-modal" class="modal hidden">
+      <div class="modal-content">
+        <p>Deseja salvar a nova foto de perfil?</p>
+        <div class="modal-buttons">
+          <button id="confirmar-btn" class="btn salvar">Salvar</button>
+          <button id="cancelar-btn" class="btn cancelar">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <p class="institution-name">Nome da Instituição</p>
+
+  <button class="sidebar-btn home" onclick="mostrarSecao('painel')">🏠</button>
+  <button class="sidebar-btn" onclick="mostrarSecao('listar-projetos')">Projetos Disponíveis</button>
+  <button class="sidebar-btn" onclick="mostrarSecao('reunioes')">Reuniões</button>
+  <button class="sidebar-btn" onclick="mostrarSecao('avaliacao')">Avaliações</button>
+   <button class="sidebar-btn" onclick="mostrarSecao('meu-perfil'); buscarPerfilMentor();">Meu Perfil</button>
+  <a href="/login.html" class="back-button">Sair</a>
+</aside>
+
+    <main class="main-content">
+      <section id="painel" class="secao-dashboard active">
+        <h2></h2>
+        <p>Este é o seu centro de controle. Abaixo, você encontra informações úteis e um resumo geral.</p>
+        <div class="dashboard-cards">
+          <div class="card">
+            <h3>Projetos Mentorados</h3>
+            <p id="count-alunos"></p>
+          </div>
+          <div class="card">
+            <h3>Alunos Mentorados</h3>
+            <p id="count-projetos"></p>
+          </div>
+        </div>
+      </section>
+
+      <section id="listar-projetos" class="secao-dashboard">
+        <h2>Projetos Cadastrados</h2>
+        <table border="1">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Título</th>
+              <th>Descrição</th>
+              <th>Status</th>
+              <th>Data Início</th>
+              <th>Data Término</th>
+            </tr>
+          </thead>
+          <tbody id="tabela-projetos"></tbody>
+        </table>
+      </section>
+
+    <section id="reunioes" class="secao-dashboard">
+  <div class="card">
+    <h2>Agendamento de Reuniões</h2>
+    <div id="reunioes-projetos"></div> <!-- Projetos mentorados aparecerão aqui -->
+
+    <form id="formulario-projeto456" class="formulario-reuniao">
+      <div class="input-group">
+        <label for="data-projeto456">Data:</label>
+        <input type="date" id="data-projeto456" required />
+      </div>
+
+      <div class="input-group">
+        <label for="hora-projeto456">Hora:</label>
+        <input type="time" id="hora-projeto456" required />
+      </div>
+
+      <div class="input-group">
+        <label for="link-projeto456">Link do Google Meet:</label>
+        <input
+          type="url"
+          id="link-projeto456"
+          placeholder="https://meet.google.com/..."
+          required
+        />
+      </div>
+
+      <button type="button" class="btn-agendar" onclick="enviarConvite('projeto456')">
+        Enviar Convite
+      </button>
+    </form>
+  </div>
+</section>
+<section id="avaliacao" class="secao-dashboard">
+  <h2>Avaliações</h2>
+  <div class="wrapper">
+    <div class="projeto-avaliacao">
+      <h3>Projeto: Nome do Projeto </h3>
+
+      <div class="aluno-avaliacao">
+        <p>Aluno: João Silva</p>
+        <div class="estrelas" data-aluno-id="1">
+          <span class="estrela" data-valor="1">&#9734;</span>
+          <span class="estrela" data-valor="2">&#9734;</span>
+          <span class="estrela" data-valor="3">&#9734;</span>
+          <span class="estrela" data-valor="4">&#9734;</span>
+          <span class="estrela" data-valor="5">&#9734;</span>
+        </div>
+        <textarea placeholder="Comentário sobre o aluno..." rows="2"></textarea>
+      </div>
+
+      <div class="aluno-avaliacao">
+        <p>Aluno: Maria Souza</p>
+        <div class="estrelas" data-aluno-id="2">
+          <span class="estrela" data-valor="1">&#9734;</span>
+          <span class="estrela" data-valor="2">&#9734;</span>
+          <span class="estrela" data-valor="3">&#9734;</span>
+          <span class="estrela" data-valor="4">&#9734;</span>
+          <span class="estrela" data-valor="5">&#9734;</span>
+        </div>
+        <textarea placeholder="Comentário sobre o aluno..." rows="2"></textarea>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="meu-perfil" class="secao-dashboard">
+  <h2 class="secao-titulo">Meu Perfil</h2>
+
+  <form id="form-perfil" class="form-perfil" enctype="multipart/form-data">
+    <div class="form-linha">
+      <div class="form-campo">
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" name="nome" required />
+      </div>
+
+      <div class="form-campo">
+        <label for="curso">Cargo</label>
+        <input type="text" id="curso" name="curso" required />
+      </div>
+    </div>
+
+    <div class="form-linha">
+      <div class="form-campo">
+        <label for="instituicao">Empresa</label>
+        <input type="text" id="instituicao" name="instituicao" required />
+      </div>
+
+      <div class="form-campo">
+        <label for="descricao">Descrição</label>
+        <textarea id="descricao" name="descricao" rows="4" required></textarea>
+      </div>
+    </div>
+
+    <button type="submit" class="btn-azul">Salvar Perfil</button>
+  </form>
+</section>
+
+    </main>
+  </div>
+</body>
+</html>
+
+
+
+<script>
+        document.querySelectorAll('.estrelas').forEach(container => {
+            const estrelas = container.querySelectorAll('.estrela');
+
+            estrelas.forEach(estrela => {
+            estrela.addEventListener('click', () => {
+                const valor = parseInt(estrela.dataset.valor);
+                estrelas.forEach((e, i) => {
+                e.classList.toggle('selecionada', i < valor);
+                });
+
+                // Aqui você pode salvar a nota em uma variável, enviar para o backend, etc.
+                const alunoId = container.dataset.alunoId;
+                console.log(`Aluno ${alunoId} avaliado com ${valor} estrela(s)`);
+            });
+            });
+        });
+    </script>
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const dados = localStorage.getItem("usuarioLogado");
+
+    if (dados) {
+      const usuario = JSON.parse(dados);
+     
+ // Exemplo: verificar o tipo
+      if (usuario.tipo !== "mentor") {
+        alert("Acesso não autorizado.");
+        window.location.href = "/login";
+      }
+
+      // Aqui você pode usar os dados do usuário normalmente
+      console.log("Usuário logado:", usuario.nome);
+    } else {
+      // Redireciona se não estiver logado
+      window.location.href = "/login";
+    }
+  });
+</script>
+
+<script>
+  function mostrarSecao(secaoId) {
+    const secoes = document.querySelectorAll('.secao-dashboard');
+    secoes.forEach(secao => secao.classList.remove('active'));
+    document.getElementById(secaoId)?.classList.add('active');
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const tipoUsuario = localStorage.getItem("tipoUsuario");
+
+    if (tipoUsuario !== "mentor") {
+      // Redireciona para a tela de login se não for do tipo "instituicao"
+      window.location.href = "/login";
+      return;
+    }
+
+    const nomeInstituicao = localStorage.getItem("instituicaoNome") || "Instituição";
+
+    // Atualiza o nome no menu lateral
+    const nomeElemento = document.querySelector('.institution-name');
+    if (nomeElemento) {
+      nomeElemento.textContent = nomeInstituicao;
+    }
+
+    // Atualiza o título da seção principal
+    const painelTitulo = document.querySelector('#painel h2');
+    if (painelTitulo) {
+      painelTitulo.textContent = `Bem-vindo(a), ${nomeInstituicao}!`;
+    }
+  });
+</script>
+
+<!-- Ativa o cadastro de projeto com a URL correta -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const ativarCadastroProjeto = criarCadastroProjetoHandler("http://localhost:3000/api/projetos");
+    ativarCadastroProjeto();
+  });
+</script>
+
+<!-- script para prewiew da foto de perfil e envio com fetch -->
+
+<script>
+  const fotoInput = document.getElementById('foto-input');
+  const previewImg = document.getElementById('preview-img');
+  const modal = document.getElementById('foto-modal');
+  const confirmarBtn = document.getElementById('confirmar-btn');
+  const cancelarBtn = document.getElementById('cancelar-btn');
+  let novaImagem = null;
+
+  fotoInput.addEventListener('change', () => {
+    const file = fotoInput.files[0];
+    if (file) {
+      novaImagem = file;
+      const reader = new FileReader();
+      reader.onload = e => {
+        previewImg.src = e.target.result;
+        modal.classList.remove('hidden');
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+confirmarBtn.addEventListener('click', async () => {
+  if (!novaImagem) return;
+
+  const formData = new FormData();
+  formData.append('foto', novaImagem);
+
+  // Pega o id do usuário do localStorage (ajuste conforme seu armazenamento)
+  const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+  if (!usuarioLogado || !usuarioLogado.id) {
+    alert('Usuário não identificado. Faça login novamente.');
+    return;
+  }
+  formData.append('userId', usuarioLogado.id);
+
+  try {
+    const res = await fetch('http://localhost:3000/upload-foto', {
+      method: 'POST',
+      body: formData
+    });
+
+    const data = await res.json();
+
+    if (data.caminho) {
+      previewImg.src = `/uploads/${data.caminho}`;
+
+      // Atualiza no localStorage para exibir depois
+      usuarioLogado.fotoPerfil = data.caminho;
+      localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
+    }
+
+    alert(data.message || 'Foto enviada com sucesso!');
+    modal.classList.add('hidden');
+    fotoInput.value = '';
+    novaImagem = null;
+  } catch (error) {
+    alert('Erro ao enviar a foto. Tente novamente.');
+    console.error(error);
+  }
+});
+
+  cancelarBtn.addEventListener('click', () => {
+    modal.classList.add('hidden');
+    novaImagem = null;
+    fotoInput.value = '';
+    // Se quiser restaurar a foto anterior aqui, descomente:
+    // previewImg.src = 'caminho/atual.jpg';
+  });
+</script>
+</body>
+</html>

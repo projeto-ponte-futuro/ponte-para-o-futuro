@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Página do Aluno</title>
+<link rel="stylesheet" href="aluno.css" />
+<script src="aluno.js" defer></script>
+</head>
+<body>
+  <div class="dashboard">
+  <aside class="sidebar">
+  <!-- Container da foto com ícone de câmera -->
+  <div class="upload-container">
+    <label for="foto-input" class="upload-label" style="cursor: pointer;">
+      <div class="profile-pic-container">
+        <img
+          id="preview-img"
+          class="profile-pic"
+          src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+          alt="Foto de perfil"
+        />
+        <span class="icon-overlay">📷</span>
+      </div>
+    </label>
+    <input type="file" id="foto-input" name="foto" accept="image/*" hidden />
+  </div>
+
+    <!-- Modal flutuante central -->
+    <div id="foto-modal" class="modal hidden">
+      <div class="modal-content">
+        <p>Deseja salvar a nova foto de perfil?</p>
+        <div class="modal-buttons">
+          <button id="confirmar-btn" class="btn salvar">Salvar</button>
+          <button id="cancelar-btn" class="btn cancelar">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <p class="institution-name">Nome do Aluno</p>
+
+  <button class="sidebar-btn home" onclick="mostrarSecao('painel')">🏠</button>
+  <button class="sidebar-btn" onclick="mostrarSecao('mentoria')">Mentoria</button>
+  <button class="sidebar-btn" onclick="mostrarSecao('projetos-disponiveis')">Projetos Disponíveis</button>
+  <button class="sidebar-btn" onclick="mostrarSecao('meus-projetos')">Meus Projetos</button>
+  <button class="sidebar-btn" onclick="mostrarSecao('meu-perfil'); buscarPerfilAluno();">Meu Perfil</button>
+  <button class="sidebar-btn" onclick="mostrarSecao('mapa-progresso')">Meu Progresso</button>
+
+  <a href="/login.html" class="back-button">Sair</a>
+</aside>
+
+
+     <main class="main-content">
+      <!-- Painel Inicial -->
+     <section id="painel" class="secao-dashboard active">
+  <h2>Bem-vindo(a) à página do Aluno!</h2>
+  <p>Este é o seu centro de controle. Abaixo, você encontra informações úteis e um resumo geral.</p>
+
+  <!-- Cards principais -->
+  <div class="dashboard-cards">
+    <div class="card">
+      <h3>Projetos Ativos</h3>
+      <p id="count-projetos"></p>
+    </div>
+    <div class="card">
+      <h3>Mentorias Agendadas</h3>
+      <p id="count-mentorias">0</p>
+    </div>
+    <div class="card">
+      <h3>Certificados</h3>
+      <p id="count-certificados">0</p>
+    </div>
+  </div>
+
+   <h3 style="margin-top: 2rem;">Sugestões para você</h3>
+  <ul class="sugestoes-lista">
+    <li>✅ Atualize seu perfil com suas habilidades e formação</li>
+    <li>💬 Participe de fóruns e discussões dos projetos</li>
+    <li>📅 Mantenha sua agenda de mentorias sempre atualizada</li>
+    <li>🏆 Finalize projetos para receber seus certificados</li>
+  </ul>
+</section>
+
+    <section id="mentoria" class="secao-dashboard">
+  <h2 class="secao-titulo">📚 Próxima Mentoria</h2>
+
+  <div class="mentoria-container">
+    <div class="mentoria-card">
+      <div class="mentoria-info">
+        <p class="mentoria-horario"><strong>📅 HOJE - 15h00</strong></p>
+        <h3 class="mentoria-titulo">Painel de Indicadores de Eficiência Operacional (PIEO)</h3>
+        <p class="mentoria-descricao">Apresentação do módulo de dashboards + gráficos</p>
+      </div>
+      <button class="btn-azul">Acessar chamada</button>
+    </div>
+
+    <div class="mentoria-agendar">
+      <button class="btn-azul">Agendar nova reunião</button>
+    </div>
+  </div>
+</section>
+
+
+      <section id="projetos-disponiveis" class="secao-dashboard">
+        <h2>Projetos Disponíveis</h2>
+        <table border="1">
+          <thead>
+            <tr>
+              <th>  Id  </th>
+              <th>  Título  </th>
+              <th>  Descrição  </th>
+              <th>  Status  </th>
+              <th>  Data Início  </th>
+              <th>  Data Término  </th>
+            </tr>
+          </thead>
+          <tbody id="tabela-projetos">
+          <!-- Conteúdo será preenchido via JavaScript -->
+          </tbody>
+          </table>
+      </section>
+
+<section id="meus-projetos" class="secao-dashboard">
+  <h2 class="secao-titulo"> Meus Projetos</h2>
+
+  <div class="tabela-container">
+    <table class="tabela-projetos">
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Descrição</th>
+          <th>Status</th>
+          <th>Mensagem</th>
+        </tr>
+      </thead>
+      <tbody id="tabela-meus-projetos">
+        <!-- Conteúdo carregado via JS -->
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+<section id="mapa-progresso" class="secao-dashboard">
+  <h1 id="titulo-projeto">Mapa de Progresso - Etapas</h1>
+
+  <!-- Menu suspenso com projetos -->
+  <label for="projetosAluno">Escolha um projeto:</label>
+  <select id="projetosAluno">
+    <option value="">Selecione um projeto</option>
+  </select>
+
+  <!-- Formulário de nova etapa -->
+  <div id="form-nova-etapa" style="margin-top: 20px;">
+    <h3>Nova Etapa</h3>
+    <input type="text" id="novaEtapaTitulo" placeholder="Título da etapa" required />
+    <select id="novaEtapaStatus">
+      <option value="Pendente">Pendente</option>
+      <option value="Em andamento">Em andamento</option>
+      <option value="Entregue">Entregue</option>
+    </select>
+    <button id="btnSalvarEtapa">Salvar Etapa</button>
+  </div>
+
+  <!-- Lista de etapas -->
+  <ul class="etapas" id="etapas">
+    <!-- Etapas com ícones de status aparecerão aqui -->
+  </ul>
+
+  <!-- Progresso total do projeto -->
+  <div class="progresso">
+    <strong>Progresso do Projeto:</strong>
+    <div class="barra">
+      <div class="barra-azul" id="barraProgresso">0%</div>
+    </div>
+  </div>
+
+  <!-- Histórico de entregas -->
+  <div id="historico-entregas" style="margin-top: 20px;">
+    <h3>Histórico de Entregas</h3>
+    <ul id="lista-historico">
+      <!-- Entradas do histórico via JS -->
+    </ul>
+  </div>
+</section>
+
+
+ <section id="meu-perfil" class="secao-dashboard">
+  <h2 class="secao-titulo">Meu Perfil</h2>
+
+  <form id="form-perfil" class="form-perfil" enctype="multipart/form-data">
+    <div class="form-linha">
+      <div class="form-campo">
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" name="nome" required />
+      </div>
+
+      <div class="form-campo">
+        <label for="curso">Curso</label>
+        <input type="text" id="curso" name="curso" required />
+      </div>
+    </div>
+
+    <div class="form-linha">
+      <div class="form-campo">
+        <label for="instituicao">Instituição</label>
+        <input type="text" id="instituicao" name="instituicao" required />
+      </div>
+
+      <div class="form-campo">
+        <label for="descricao">Descrição</label>
+        <textarea id="descricao" name="descricao" rows="4" required></textarea>
+      </div>
+    </div>
+
+    <button type="submit" class="btn-azul">Salvar Perfil</button>
+  </form>
+</section>
+
+    </main>
+  </div>
+
+    </main>
+
+ <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const dados = localStorage.getItem("usuarioLogado");
+
+    if (dados) {
+      const usuario = JSON.parse(dados);
+
+      // Verifica se o tipo de usuário está correto
+      if (usuario.tipo !== "aluno") {
+        alert("Acesso não autorizado.");
+        window.location.href = "login.html";
+        return;
+      }
+
+      // Atualiza nome do usuário no menu lateral
+      const nomeElemento = document.querySelector('.institution-name');
+      if (nomeElemento) {
+        nomeElemento.textContent = usuario.nome || "Aluno";
+      }
+
+      // Atualiza título principal
+      const tituloPrincipal = document.querySelector('#meu-perfil h2');
+      if (tituloPrincipal) {
+        tituloPrincipal.textContent = `Bem-vindo(a), ${usuario.nome || "Aluno"}!`;
+      }
+
+      // Atualiza a foto de perfil (se existir)
+      if (usuario.fotoPerfil) {
+        const imgEl = document.getElementById('preview-img');
+        if (imgEl) imgEl.src = `/uploads/${usuario.fotoPerfil}`;
+      }
+      carregarProjetos();
+    } else {
+      // Redireciona se não estiver logado
+      window.location.href = "login.html";
+    }
+  });
+</script>
+
+<script>
+function mostrarSecao(secaoId) {
+  const secoes = document.querySelectorAll('.secao-dashboard');
+  secoes.forEach(secao => secao.classList.remove('active'));
+
+  const secaoSelecionada = document.getElementById(secaoId);
+  if (secaoSelecionada) {
+    secaoSelecionada.classList.add('active');
+  }
+
+  // Executa funções de carregamento com base na seção
+  if (secaoId === 'projetos-disponiveis') {
+    carregarProjetos();
+  }
+  if (secaoId === 'meus-projetos') {
+    carregarMeusProjetos();
+  }
+}
+</script>
+
+<script>
+  const fotoInput = document.getElementById('foto-input');
+  const previewImg = document.getElementById('preview-img');
+  const modal = document.getElementById('foto-modal');
+  const confirmarBtn = document.getElementById('confirmar-btn');
+  const cancelarBtn = document.getElementById('cancelar-btn');
+  let novaImagem = null;
+
+  fotoInput.addEventListener('change', () => {
+    const file = fotoInput.files[0];
+    if (file) {
+      novaImagem = file;
+      const reader = new FileReader();
+      reader.onload = e => {
+        previewImg.src = e.target.result;
+        modal.classList.remove('hidden');
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  confirmarBtn.addEventListener('click', async () => {
+    if (!novaImagem) return;
+
+    const formData = new FormData();
+    formData.append('foto', novaImagem);
+
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+    if (!usuarioLogado || !usuarioLogado.id) {
+      alert('Usuário não identificado. Faça login novamente.');
+      return;
+    }
+    formData.append('userId', usuarioLogado.id);
+
+    try {
+      const res = await fetch('http://localhost:3000/upload-foto', {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await res.json();
+
+      if (data.caminho) {
+        previewImg.src = `/uploads/${data.caminho}`;
+        usuarioLogado.fotoPerfil = data.caminho;
+        localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
+      }
+
+      alert(data.message || 'Foto enviada com sucesso!');
+      modal.classList.add('hidden');
+      fotoInput.value = '';
+      novaImagem = null;
+    } catch (error) {
+      alert('Erro ao enviar a foto. Tente novamente.');
+      console.error(error);
+    }
+  });
+
+  cancelarBtn.addEventListener('click', () => {
+    modal.classList.add('hidden');
+    novaImagem = null;
+    fotoInput.value = '';
+  });
+</script>
+
+
+ <script>
+  const alunoId = 11; // temporário — você vai trocar por sessionStorage depois
+
+  // Carregar projetos no menu suspenso
+  fetch(`https://ponte-para-o-futuro-production.up.railway.app/alunos/${alunoId}/projetos`)
+    .then(res => res.json())
+    .then(projetos => {
+      console.log('Projetos carregados:', projetos); // debug
+      const select = document.getElementById('projetosAluno');
+
+      projetos.forEach(p => {
+        const option = document.createElement('option');
+        option.value = p.id;
+        option.textContent = p.titulo;
+        select.appendChild(option);
+      });
+
+      // Evento de mudança no menu suspenso
+      select.addEventListener('change', (e) => {
+        const projetoId = e.target.value;
+        if (projetoId) {
+          mostrarFormulario(projetoId);
+        }
+      });
+    })
+    .catch(err => console.error('Erro ao buscar projetos:', err));
+
+</script>
+
+<script>
+  // Aguarda seleção de projeto
+document.getElementById('projetosAluno').addEventListener('change', function () {
+  const projetoId = this.value;
+  if (!projetoId) return;
+
+  fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/projetos/${projetoId}/etapas`)
+    .then(res => res.json())
+    .then(etapas => {
+      const lista = document.getElementById('etapas');
+      const historico = document.getElementById('lista-historico');
+      lista.innerHTML = '';
+      historico.innerHTML = '';
+
+      let entregues = 0;
+
+      etapas.forEach(etapa => {
+        // Criar item visual
+        const li = document.createElement('li');
+        const icone = document.createElement('span');
+        const titulo = document.createElement('span');
+
+        icone.className = 'icone-status ' + etapa.status.toLowerCase().replace(' ', '-');
+        titulo.textContent = etapa.titulo;
+        li.appendChild(icone);
+        li.appendChild(titulo);
+        lista.appendChild(li);
+
+        // Histórico
+        const hist = document.createElement('li');
+        hist.textContent = `${etapa.titulo} - ${etapa.status} em ${etapa.data}`;
+        historico.appendChild(hist);
+
+        if (etapa.status === 'Entregue') entregues++;
+      });
+
+      // Progresso
+      const progresso = Math.round((entregues / etapas.length) * 100) || 0;
+      const barra = document.getElementById('barraProgresso');
+      barra.style.width = `${progresso}%`;
+      barra.textContent = `${progresso}%`;
+    });
+});
+
+// Salvar nova etapa
+document.getElementById('btnSalvarEtapa').addEventListener('click', () => {
+  const projetoId = document.getElementById('projetosAluno').value;
+  const titulo = document.getElementById('novaEtapaTitulo').value;
+  const status = document.getElementById('novaEtapaStatus').value;
+
+  if (!projetoId || !titulo || !status) return alert('Preencha todos os campos');
+
+  fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/projetos/${projetoId}/etapas`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ titulo, status })
+  })
+    .then(res => res.json())
+    .then(() => {
+      alert('Etapa salva com sucesso!');
+      document.getElementById('novaEtapaTitulo').value = '';
+      document.getElementById('novaEtapaStatus').value = 'Pendente';
+      document.getElementById('projetosAluno').dispatchEvent(new Event('change')); // recarrega etapas
+    })
+    .catch(err => console.error('Erro ao salvar etapa:', err));
+});
+
+</script>
+
+    
+</body>
+</html>

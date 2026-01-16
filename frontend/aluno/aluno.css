@@ -1,0 +1,1067 @@
+/* Reset e base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+body {
+  background-color: #f8fafc;
+  color: #1e293b;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.dashboard {
+  display: flex;
+  height: 100vh;
+}
+
+
+.institution-name {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px 0 20px;
+  text-align: center;
+}
+
+.sidebar button {
+  background: none;
+  border: none;
+  color: #cbd5e1;
+  font-size: 16px;
+  margin: 10px 0;
+  cursor: pointer;
+  text-align: center;
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background 0.3s, color 0.3s;
+  text-decoration: none;
+}
+
+/* Foto de perfil */
+.upload-container {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.profile-pic {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #38bdf8;
+  transition: opacity 0.3s ease;
+  background-color: #1e293b;
+}
+
+.icon-overlay {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: #1e293b;
+  color: #38bdf8;
+  border-radius: 50%;
+  padding: 4px 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Modal da foto */
+.modal.hidden {
+  display: none;
+}
+
+.modal {
+  position: flex;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+}
+
+.modal-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn.salvar {
+  background-color: #0ea5e9;
+  color: white;
+}
+
+.btn.cancelar {
+  background-color: #ef4444;
+  color: white;
+}
+
+/* Conteúdo principal */
+.main-content {
+  flex: 1;
+  padding: 40px 30px;
+  overflow-y: auto;
+  background-color: #f8fafc;
+}
+
+.secao-dashboard {
+  display: none;
+}
+
+.secao-dashboard.active {
+  display: block;
+}
+
+h2, h1 {
+  margin-bottom: 20px;
+  font-size: 26px;
+  color: #0ea5e9;
+}
+
+/* Formulários */
+form input,
+form textarea,
+form select,
+form button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  font-size: 14px;
+  font-family: "Roboto", sans-serif;
+}
+
+form button {
+  background-color: #0ea5e9;
+  color: white;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+form button:hover {
+  background-color: #0284c7;
+}
+
+/* Tabelas */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+table th,
+table td {
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  text-align: left;
+  font-size: 14px;
+  color: #1e293b;
+}
+
+table th {
+  background-color: #f1f5f9;
+}
+
+table tr:nth-child(even) {
+  background-color: #f8fafc;
+}
+
+/* Variáveis de cores - mantidas globais, caso já existam no aluno.css, pode remover */
+:root {
+  --azul-escuro: #111827;
+  --azul-claro: #06b6d4;
+  --cinza-claro: #d1d5db;
+  --branco: #ffffff;
+}
+
+/* Reset e fonte aplicados globalmente no aluno.css, removidos daqui */
+
+/* Estilos específicos para o mapa de progresso dentro da section #mapa-progresso */
+#mapa-progresso {
+  background-color: var(--cinza-claro);
+  color: var(--azul-escuro);
+  padding: 40px 30px;
+  border-radius: 12px;
+  max-width: 900px;
+  margin: 0 auto 40px auto;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  font-family: "Roboto", sans-serif;
+  transition: box-shadow 0.3s ease;
+}
+
+#mapa-progresso:hover {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+#mapa-progresso h1 {
+  margin-bottom: 12px;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--azul-escuro);
+  text-align: center;
+}
+
+#mapa-progresso .subtitulo {
+  margin-bottom: 35px;
+  font-size: 1.15rem;
+  color: var(--azul-escuro);
+  text-align: center;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+/* Lista de etapas */
+#mapa-progresso .etapas {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 30px;
+}
+
+#mapa-progresso .etapas li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--branco);
+  border: 1.5px solid var(--cinza-claro);
+  border-radius: 8px;
+  padding: 14px 22px;
+  margin-bottom: 12px;
+  color: var(--azul-escuro);
+  font-weight: 600;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#mapa-progresso .etapas li:hover {
+  background-color: #e6f0ff;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Botões de status */
+#mapa-progresso .botao-status {
+  padding: 10px 22px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--branco);
+  transition: background-color 0.3s ease, box-shadow 0.2s ease;
+  margin-left: 10px;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+}
+
+#mapa-progresso .botao-status.entregue {
+  background-color: #10b981; /* verde */
+  box-shadow: 0 4px 8px rgba(16,185,129,0.5);
+}
+
+#mapa-progresso .botao-status.andamento {
+  background-color: #facc15; /* amarelo */
+  color: #111827;
+  box-shadow: 0 4px 8px rgba(250,204,21,0.5);
+}
+
+#mapa-progresso .botao-status.pendente {
+  background-color: #ef4444; /* vermelho */
+  box-shadow: 0 4px 8px rgba(239,68,68,0.5);
+}
+
+#mapa-progresso .botao-status.active {
+  box-shadow: 0 0 12px 3px rgba(59,130,246,0.7);
+  transform: scale(1.05);
+}
+
+#mapa-progresso .botao-status:hover {
+  opacity: 0.9;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+  transform: translateY(-2px);
+}
+
+/* Barra de progresso */
+#mapa-progresso .progresso {
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-top: 25px;
+  color: var(--azul-escuro);
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
+#mapa-progresso .barra {
+  background-color: var(--branco);
+  border: 1.5px solid var(--azul-claro);
+  border-radius: 12px;
+  height: 28px;
+  margin: 15px auto 0 auto;
+  overflow: hidden;
+  max-width: 600px;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);
+}
+
+#mapa-progresso .barra-azul {
+  height: 100%;
+  background-color: var(--azul-claro);
+  text-align: center;
+  color: var(--branco);
+  line-height: 28px;
+  font-weight: 700;
+  width: 0%; /* Inicial */
+  transition: width 0.5s ease-in-out;
+  box-shadow: 0 3px 8px rgba(14,165,233,0.6);
+  border-radius: 12px 0 0 12px;
+  user-select: none;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  #mapa-progresso {
+    padding: 25px 20px;
+    max-width: 100%;
+  }
+
+  #mapa-progresso h1 {
+    font-size: 1.8rem;
+  }
+
+  #mapa-progresso .subtitulo {
+    font-size: 1rem;
+    margin-bottom: 25px;
+  }
+
+  #mapa-progresso .etapas li {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 14px 18px;
+  }
+
+  #mapa-progresso .botao-status {
+    margin: 8px 0 0 0;
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  #mapa-progresso .barra {
+    height: 22px;
+  }
+
+  #mapa-progresso .barra-azul {
+    line-height: 22px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 400px) {
+  #mapa-progresso h1 {
+    font-size: 1.6rem;
+  }
+
+  #mapa-progresso .subtitulo {
+    font-size: 0.95rem;
+  }
+
+  #mapa-progresso .botao-status {
+    font-size: 0.9rem;
+    padding: 10px 14px;
+  }
+}
+#mentoria {
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 2rem;
+}
+
+.secao-titulo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #1e1e1e;
+}
+
+.mentoria-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.mentoria-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mentoria-info {
+  flex-grow: 1;
+}
+
+.mentoria-horario {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 0.3rem;
+}
+
+.mentoria-titulo {
+  font-size: 1.2rem;
+  color: #1a1a1a;
+  margin: 0.3rem 0;
+}
+
+.mentoria-descricao {
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.mentoria-agendar {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-azul {
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-azul:hover {
+  background-color: #01458a;
+}
+
+#meus-projetos {
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(204, 65, 65, 0.08);
+  margin-bottom: 2rem;
+}
+
+.tabela-container {
+  overflow-x: auto;
+  background-color: white;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.tabela-projetos {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.tabela-projetos thead {
+  background-color: #e6f0fa;
+}
+
+.tabela-projetos th,
+.tabela-projetos td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.tabela-projetos tbody tr:hover {
+  background-color: #f1f7ff;
+  transition: background-color 0.2s ease;
+}
+
+.tabela-projetos th {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 220px;
+  background-color: #1e293b; /* fundo escuro */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 12px;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  color: #eee;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+  box-shadow: 3px 0 6px rgba(0,0,0,0.3);
+  z-index: 10;
+}
+
+.main-content {
+  margin-left: 220px; /* mesma largura da sidebar */
+  /* já tem outras propriedades */
+  flex: 1;
+  padding: 40px 30px;
+  overflow-y: auto;
+  background-color: #f8fafc;
+}
+
+
+.foto-form {
+  width: 100%;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.upload-container {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+}
+
+.profile-pic-container, .profile-pic {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background-color: #2f333b;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-pic{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  transition: filter 0.3s ease;
+}
+
+.profile-pic-form {
+    width: 15%;
+  height: 15%;
+  object-fit: cover;
+  border-radius: 50%;
+  transition: filter 0.3s ease;
+  margin-bottom: 20px;
+  background-color: #2f333b;
+}
+
+.icon-overlay {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  font-size: 24px;
+  background: #007bff;
+  color: white;
+  border-radius: 50%;
+  padding: 4px 6px;
+  box-shadow: 0 0 6px rgba(0,123,255,0.7);
+  pointer-events: none;
+}
+
+.sidebar-btn {
+  background: none;
+  border: none;
+  color: #eee;
+  width: 100%;
+  padding: 12px 10px;
+  font-size: 16px;
+  text-align: left;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  user-select: none;
+}
+
+.sidebar-btn:hover,
+.sidebar-btn:focus {
+  background-color: #007bff;
+  color: white;
+  outline: none;
+}
+
+.home {
+  font-weight: 700;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.institution-name {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.back-button {
+  margin-top: auto;
+  font-size: 14px;
+  color: #ccc;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  background-color: #cd0000;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  user-select: none;
+}
+
+.back-button:hover {
+  background-color: #cd0000;
+  color: white;
+}
+
+/*configuração da img voltar-button*/
+
+.voltar-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 30;
+}
+
+.voltar-button img {
+  width: 40px;
+  height: auto;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+
+/* Modal (se quiser manter o padrão modal) */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(30,33,39,0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+
+.modal-content {
+  background: #2f333b;
+  padding: 24px;
+  border-radius: 12px;
+  color: #eee;
+  width: 320px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,123,255,0.5);
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 16px;
+}
+
+.btn.salvar {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 10px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn.cancelar {
+  background-color: #555;
+  border: none;
+  color: white;
+  padding: 10px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.secao-dashboard {
+  padding: 2rem;
+  color: #333;
+}
+
+.dashboard-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  flex: 1 1 250px;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}
+
+.card h3, .card h4 {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.card-acao {
+  background-color: #f5f7fa;
+}
+
+.btn-acao {
+  margin-top: 0.8rem;
+  padding: 0.5rem 1rem;
+  background-color: #0057d9;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-acao:hover {
+  background-color: #003fa6;
+}
+
+.sugestoes-lista {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+.sugestoes-lista li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+  font-size: 0.95rem;
+}
+
+/*regras da section de avaliações da página do mentor */
+
+/* section de avaliações */
+
+#avaliacao {
+  padding: 1.0rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 170, 255, 0.15);
+  margin-bottom: 2px;
+}
+
+#avaliacao h2 {
+  color: #00aaff;
+  font-weight: 700;
+  font-size: 1.8rem;
+  margin-bottom: 2px;
+  text-align: center;
+  font-family: "Roboto", sans-serif;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.projeto-avaliacao {
+  background: white;
+  padding: 1.5rem 1.8rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 170, 255, 0.1);
+}
+
+.projeto-avaliacao h3 {
+  font-weight: 600;
+  color: #0369a1; /* azul escuro */
+  margin-bottom: 1rem;
+  font-family: "Roboto", sans-serif;
+}
+
+.aluno-avaliacao {
+  margin-bottom: 1.2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e0f2fe;
+}
+
+.aluno-avaliacao:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.aluno-avaliacao p {
+  font-weight: 500;
+  color: #0284c7;
+  margin-bottom: 0.5rem;
+  font-family: "Roboto", sans-serif;
+}
+
+.estrelas {
+  display: inline-flex;
+  gap: 6px;
+  margin-bottom: 0.6rem;
+  cursor: pointer;
+}
+
+.estrela {
+  font-size: 22px;
+  color: #b0c9da; /* cinza claro para estrelas vazias */
+  transition: color 0.3s ease;
+}
+
+.estrela:hover,
+.estrela:hover ~ .estrela {
+  color: #ffcc00; /* azul vibrante ao hover */
+}
+
+.estrela.ativa {
+  color: #f6ff00; /* amarelo para estrelas selecionadas */
+}
+
+textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 48px;
+  max-height: 96px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1.8px solid #d0e8ff;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.9rem;
+  color: #1e293b;
+  transition: border-color 0.3s ease;
+}
+
+textarea:focus {
+  border-color: #00aaff;
+  outline: none;
+  background-color: #e6f4ff;
+}
+
+.secao-dashboard {
+  background-color: #f5f7fa;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 900px;
+  margin: auto;
+}
+
+label,
+h3 {
+  margin-top: 15px;
+  display: block;
+  font-weight: bold;
+}
+
+input,
+select {
+  padding: 8px;
+  margin-right: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button#btnSalvarEtapa {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button#btnSalvarEtapa:hover {
+  background-color: #0056b3;
+}
+
+.etapas {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.etapas li {
+  background-color: white;
+  border-left: 5px solid #ccc;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  justify-content: space-between;
+}
+
+.icone-status {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.icone-status.pendente {
+  background-color: rgb(214, 0, 0);
+}
+
+.icone-status.em-andamento {
+  background-color: rgb(255, 251, 0);
+}
+
+.icone-status.entregue {
+  background-color: green;
+}
+
+.progresso {
+  margin-top: 20px;
+}
+
+.barra {
+  width: 100%;
+  height: 20px;
+  background-color: #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.barra-azul {
+  height: 100%;
+  width: 0%;
+  background-color: #007bff;
+  color: white;
+  text-align: center;
+  line-height: 20px;
+  transition: width 0.3s ease;
+}
+
+#lista-historico {
+  list-style: none;
+  padding: 0;
+}
+
+#lista-historico li {
+  background: #e6f7ff;
+  margin-bottom: 5px;
+  padding: 8px;
+  border-left: 4px solid #00aaff;
+  border-radius: 4px;
+}
+
+/* ===========================
+   MODAL EDITAR - FORTE/CENTRAL
+   =========================== */
+
+#modal-editar {
+  margin-left: 800px; /* mesma largura da sidebar */
+  margin-top: 300px;
+  /* já tem outras propriedades */
+  flex: 1;
+  width: 500px;
+  height: 550px;
+  overflow-y: auto;
+  background: #1e293b; /* overlay */
+  z-index: 99999 !important;
+}
+
+/* esconder flag */
+#modal-editar.hidden {
+  display: none !important;
+}
+
+/* caixa do modal (centrada pelo flex do overlay) */
+#modal-editar .modal-content {
+  width: 480px;
+  height: 500px;
+  max-width: calc(100% - 40px);
+  background: #f9f9f9;
+  color: #222;
+  padding: 20px 22px;
+  border-radius: 12px;
+  box-shadow: 0 8px 0px rgba(8, 8, 8, 0.25);
+  transform: none !important; /* evita transforms herdados */
+  position: relative;
+  margin: 2;
+}
+
+/* botões e inputs */
+#modal-editar .modal-content1 input,
+#modal-editar .modal-content1 select,
+#modal-editar .modal-content1 textarea {
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #dcdcdc;
+  margin-top: 8px;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+#modal-editar .modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+#modal-editar .btn-salvar {
+  flex: 1;
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#modal-editar .btn-cancelar {
+  flex: 1;
+  background: #af0101;
+  color: #dedede;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* animação leve */
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+#modal-editar .modal-content { animation: modalFadeIn .18s ease-out; }
